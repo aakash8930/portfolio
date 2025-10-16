@@ -38,7 +38,7 @@ const Hero = () => {
         {/* Social Links - Top */}
         <div className="flex justify-center gap-4 mb-8 animate-fade-in">
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/aakash8930"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-full bg-card/50 backdrop-blur-sm border border-border hover:border-primary transition-all hover:scale-110"
@@ -46,7 +46,7 @@ const Hero = () => {
             <Github className="w-5 h-5" />
           </a>
           <a
-            href="https://linkedin.com/in/yourprofile"
+            href="https://www.linkedin.com/in/aakash-singh-web-app-developer"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-full bg-card/50 backdrop-blur-sm border border-border hover:border-primary transition-all hover:scale-110"
@@ -54,7 +54,7 @@ const Hero = () => {
             <Linkedin className="w-5 h-5" />
           </a>
           <a
-            href="mailto:your.email@example.com"
+            href="mailto:aakash.singh0953@gmail.com"
             className="p-3 rounded-full bg-card/50 backdrop-blur-sm border border-border hover:border-primary transition-all hover:scale-110"
           >
             <Mail className="w-5 h-5" />
