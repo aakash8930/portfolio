@@ -9,7 +9,7 @@ const Projects = () => {
       description: "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
       tech: ["React", "Node.js", "MongoDB", "Razorpay"],
       github: "#",
-      live: "#"
+      live: "https://furniture-git-main-aakash8930s-projects.vercel.app/"
     },
     {
       title: "Task Management App",
@@ -23,7 +23,7 @@ const Projects = () => {
       description: "Content management system specifically designed for creative professionals to showcase their work.",
       tech: ["React", "GraphQL", "MongoDB", "AWS"],
       github: "#",
-      live: "https://furniture-git-main-aakash8930s-projects.vercel.app/"
+      live: "#"
     }
   ];
 
