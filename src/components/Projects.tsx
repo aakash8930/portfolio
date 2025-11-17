@@ -16,14 +16,14 @@ const Projects = () => {
       description: "Collaborative project management tool with real-time updates, team collaboration features, and analytics.",
       tech: ["TypeScript", "Next.js", "Prisma", "WebSocket"],
       github: "#",
-      live: "#"
+      live: ""
     },
     {
       title: "Portfolio CMS",
       description: "Content management system specifically designed for creative professionals to showcase their work.",
       tech: ["React", "GraphQL", "MongoDB", "AWS"],
       github: "#",
-      live: "#"
+      live: "https://furniture-git-main-aakash8930s-projects.vercel.app/"
     }
   ];
 
