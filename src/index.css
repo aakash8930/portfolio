@@ -2,12 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Design system. All colors MUST be HSL. */
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 220 26% 10%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 220 26% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 26% 10%;
+
+    --primary: 189 90% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 26% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 189 90% 36%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 14% 88%;
+    --input: 220 14% 88%;
+    --ring: 189 90% 36%;
+
+    --radius: 0.75rem;
+
+    --gradient-primary: linear-gradient(135deg, hsl(189 90% 36%), hsl(217 90% 50%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 14% 96%));
+    --gradient-mesh:
+      radial-gradient(at 20% 20%, hsl(189 90% 50% / 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 10%, hsl(217 90% 60% / 0.12) 0px, transparent 50%),
+      radial-gradient(at 60% 80%, hsl(280 70% 60% / 0.10) 0px, transparent 50%);
+
+    --shadow-glow: 0 0 40px hsl(189 90% 36% / 0.25);
+    --shadow-card: 0 10px 30px -10px hsl(220 26% 10% / 0.15);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
     --background: 220 26% 8%;
     --foreground: 210 40% 98%;
 
@@ -36,15 +78,15 @@ All colors MUST be HSL.
     --input: 220 24% 18%;
     --ring: 189 94% 43%;
 
-    --radius: 0.75rem;
-
     --gradient-primary: linear-gradient(135deg, hsl(189 94% 43%), hsl(217 91% 60%));
     --gradient-subtle: linear-gradient(180deg, hsl(220 26% 8%), hsl(220 24% 10%));
-    
+    --gradient-mesh:
+      radial-gradient(at 20% 20%, hsl(189 94% 43% / 0.18) 0px, transparent 50%),
+      radial-gradient(at 80% 10%, hsl(217 91% 60% / 0.15) 0px, transparent 50%),
+      radial-gradient(at 60% 80%, hsl(280 80% 60% / 0.12) 0px, transparent 50%);
+
     --shadow-glow: 0 0 40px hsl(189 94% 43% / 0.3);
     --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
-    
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -54,41 +96,94 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  /* Visible focus ring for keyboard users. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }
 
 @layer utilities {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400;
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
   }
-  
+
+  .mesh-gradient {
+    background-image: var(--gradient-mesh);
+  }
+
   .card-hover {
     transition: var(--transition-smooth);
   }
-  
+
   .card-hover:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-glow);
   }
 
+  /* Real entrance animations (the previous references were broken). */
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out both;
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .animate-fade-in-delay-1 {
+    animation: fade-in-up 0.7s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .animate-fade-in-delay-2 {
+    animation: fade-in-up 0.7s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .animate-fade-in-delay-3 {
+    animation: fade-in-up 0.7s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .animate-fade-in-delay-4 {
+    animation: fade-in-up 0.7s 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  /* Hero grid background — subtle, doesn't compete with type. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.4) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 80%);
+  }
+
   .delay-200 {
     animation-delay: 200ms;
   }
-
   .delay-300 {
     animation-delay: 300ms;
   }
-
   .delay-700 {
     animation-delay: 700ms;
   }
-
   .delay-1000 {
     animation-delay: 1000ms;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

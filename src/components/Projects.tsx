@@ -1,86 +1,75 @@
-import { ExternalLink, Github } from "lucide-react";
+import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Card } from "./ui/card";
-import { Button } from "./ui/button";
+import { projects, type Project } from "@/lib/site-config";
+import { CoverArt } from "./CoverArt";
+import { CaseStudyModal } from "./CaseStudyModal";
 
 const Projects = () => {
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
-      tech: ["React", "Node.js", "MongoDB", "Razorpay"],
-      github: "#",
-      live: "https://furniture-git-main-aakash8930s-projects.vercel.app/"
-    },
-    {
-      title: "Task Management App",
-      description: "Collaborative project management tool with real-time updates, team collaboration features, and analytics.",
-      tech: ["TypeScript", "Next.js", "Prisma", "WebSocket"],
-      github: "#",
-      live: ""
-    },
-    {
-      title: "Portfolio CMS",
-      description: "Content management system specifically designed for creative professionals to showcase their work.",
-      tech: ["React", "GraphQL", "MongoDB", "AWS"],
-      github: "#",
-      live: "#"
-    }
-  ];
+  const [active, setActive] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="py-20 px-6">
+    <section id="projects" className="py-24 px-6" aria-labelledby="projects-heading">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-          Featured <span className="gradient-text">Projects</span>
-        </h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <Card 
-              key={index}
-              className="p-6 bg-card border-border card-hover flex flex-col"
+        <div className="mb-12 text-center">
+          <p className="text-sm uppercase tracking-widest text-primary mb-3">Selected work</p>
+          <h2 id="projects-heading" className="text-4xl md:text-5xl font-bold">
+            Featured <span className="gradient-text">Projects</span>
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, i) => (
+            <Card
+              key={project.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open ${project.title} case study`}
+              className="p-0 bg-card border-border card-hover overflow-hidden flex flex-col cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              onClick={() => setActive(project)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActive(project);
+                }
+              }}
+              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <h3 className="text-2xl font-semibold mb-3">{project.title}</h3>
-              <p className="text-muted-foreground mb-4 flex-grow">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.tech.map((tech, techIndex) => (
-                  <span 
-                    key={techIndex}
-                    className="text-xs px-2 py-1 rounded bg-primary/10 text-primary"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-3">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="flex-1 border-primary/50 hover:bg-primary/10"
-                  asChild
-                >
-                  <a href={project.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4 mr-2" />
-                    Code
-                  </a>
-                </Button>
-                <Button 
-                  size="sm"
-                  className="flex-1 bg-primary hover:bg-primary/90"
-                  asChild
-                >
-                  <a href={project.live} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Live
-                  </a>
-                </Button>
+              <CoverArt variant={project.cover} className="rounded-none border-0 border-b" />
+              <div className="p-5 flex flex-col flex-grow">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-semibold leading-tight">{project.title}</h3>
+                  <ArrowUpRight className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
+                </div>
+                <p className="text-sm text-muted-foreground mb-4 flex-grow">
+                  {project.oneLiner}
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tech.slice(0, 4).map((t) => (
+                    <span
+                      key={t}
+                      className="text-[10px] px-2 py-0.5 rounded bg-primary/10 text-primary font-medium"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                  {project.tech.length > 4 && (
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-muted text-muted-foreground font-medium">
+                      +{project.tech.length - 4}
+                    </span>
+                  )}
+                </div>
               </div>
             </Card>
           ))}
         </div>
+
+        <p className="text-center text-sm text-muted-foreground mt-8">
+          Click any project for the full case study.
+        </p>
       </div>
+
+      <CaseStudyModal project={active} onOpenChange={(o) => !o && setActive(null)} />
     </section>
   );
 };

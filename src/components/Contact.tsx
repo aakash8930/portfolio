@@ -1,65 +1,73 @@
-import { Mail, Linkedin, Github } from "lucide-react";
+import { Mail, Linkedin, Github, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
+import { siteConfig } from "@/lib/site-config";
 
 const Contact = () => {
   const socialLinks = [
     {
       icon: Mail,
       label: "Email",
-      href: "mailto:aakash.singh0953@gmail.com",
-      text: "aakash.singh0953@gmail.com"
+      value: siteConfig.email,
+      href: `mailto:${siteConfig.email}`,
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/aakash-singh-web-app-developer",
-      text: "linkedin.com/in/aakash-singh-web-app-developer"
+      value: "aakash-singh-web-app-developer",
+      href: siteConfig.social.linkedin,
     },
     {
       icon: Github,
       label: "GitHub",
-      href: "https://github.com/aakash8930",
-      text: "github.com/aakash8930"
-    }
+      value: "@aakash8930",
+      href: siteConfig.social.github,
+    },
   ];
 
   return (
-    <section id="contact" className="py-20 px-6 bg-secondary/30">
+    <section id="contact" className="py-24 px-6" aria-labelledby="contact-heading">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6">
-          Let's <span className="gradient-text">Connect</span>
+        <p className="text-sm uppercase tracking-widest text-primary mb-3">Contact</p>
+        <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-4">
+          Let's <span className="gradient-text">work together.</span>
         </h2>
-        <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-          I'm always open to discussing new opportunities, creative ideas, or partnerships. 
-          Feel free to reach out!
+        <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+          Open to freelance full-stack work, integrations, and interesting collaborations.
+          The fastest way to reach me is email.
         </p>
-        
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {socialLinks.map((link, index) => (
+
+        <div className="grid sm:grid-cols-3 gap-4 mb-10">
+          {socialLinks.map((link) => (
             <a
-              key={index}
+              key={link.label}
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-6 bg-card border border-border rounded-lg hover:border-primary/50 card-hover transition-all group"
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="p-5 bg-card border border-border rounded-lg hover:border-primary/50 card-hover transition-all group"
             >
-              <link.icon className="w-8 h-8 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform" />
-              <p className="font-semibold mb-1">{link.label}</p>
-              <p className="text-sm text-muted-foreground">{link.text}</p>
+              <link.icon className="w-5 h-5 text-primary mx-auto mb-2.5 group-hover:scale-110 transition-transform" />
+              <p className="text-sm font-semibold mb-0.5">{link.label}</p>
+              <p className="text-xs text-muted-foreground truncate">{link.value}</p>
             </a>
           ))}
         </div>
 
-        <Button 
-          size="lg"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow"
-          asChild
-        >
-          <a href="mailto:your.email@example.com">
-            <Mail className="w-5 h-5 mr-2" />
-            Send Me an Email
-          </a>
-        </Button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Button
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow"
+            asChild
+          >
+            <a href={`mailto:${siteConfig.email}`}>
+              <Mail className="w-4 h-4 mr-2" />
+              {siteConfig.email}
+            </a>
+          </Button>
+          <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5" />
+            {siteConfig.location}
+          </p>
+        </div>
       </div>
     </section>
   );

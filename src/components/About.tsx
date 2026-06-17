@@ -1,64 +1,67 @@
-import { Code2, Palette, Zap } from "lucide-react";
+import { Code2, GitBranch, Layers, Zap } from "lucide-react";
 import { Card } from "./ui/card";
+import { siteConfig } from "@/lib/site-config";
+
+const highlights = [
+  {
+    icon: Code2,
+    title: "End-to-end builds",
+    description: "From data model to deploy — backend plumbing, real-time systems, payments, the parts that actually decide whether a product works.",
+  },
+  {
+    icon: Layers,
+    title: "Architecture that bends",
+    description: "Monorepos, type-safe boundaries, pluggable providers. Designs that survive the next requirement change without a rewrite.",
+  },
+  {
+    icon: GitBranch,
+    title: "Integrations & APIs",
+    description: "SAP HANA, Stripe, PhonePe, Shipsgo, OAuth, webhooks. Glue work that connects products to the rest of the world.",
+  },
+  {
+    icon: Zap,
+    title: "Shipped, not demoed",
+    description: "Every project in this portfolio is live, in production, or in the hands of a paying client.",
+  },
+];
 
 const About = () => {
-  const highlights = [
-    {
-      icon: Code2,
-      title: "Clean Code",
-      description: "Writing maintainable, scalable, and efficient code"
-    },
-    {
-      icon: Palette,
-      title: "Design Focus",
-      description: "Creating beautiful, user-centered interfaces"
-    },
-    {
-      icon: Zap,
-      title: "Performance",
-      description: "Optimizing for speed and best practices"
-    }
-  ];
-
   return (
-    <section id="about" className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-          About <span className="gradient-text">Me</span>
-        </h2>
-        
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-4">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              I'm a passionate developer with expertise in building modern web applications. 
-              With a strong foundation in both frontend and backend technologies, I bring ideas to life 
-              through clean code and thoughtful design.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              My journey in development has equipped me with the skills to tackle complex challenges 
-              and deliver solutions that make a real impact. I'm constantly learning and staying up-to-date 
-              with the latest technologies and best practices.
-            </p>
-          </div>
+    <section id="about" className="py-24 px-6" aria-labelledby="about-heading">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-14 text-center">
+          <p className="text-sm uppercase tracking-widest text-primary mb-3">About</p>
+          <h2 id="about-heading" className="text-4xl md:text-5xl font-bold">
+            <span className="gradient-text">Aakash</span>, briefly.
+          </h2>
+        </div>
 
-          <div className="grid gap-6">
-            {highlights.map((item, index) => (
-              <Card 
-                key={index}
-                className="p-6 bg-card border-border hover:border-primary/50 card-hover"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
+        <div className="space-y-5 text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-14">
+          {siteConfig.longBio.map((p, i) => (
+            <p key={i} className="animate-fade-in-up" style={{ animationDelay: `${i * 80}ms` }}>
+              {p}
+            </p>
+          ))}
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          {highlights.map((h, i) => (
+            <Card
+              key={h.title}
+              className="p-5 bg-card border-border card-hover animate-fade-in-up"
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-2.5 rounded-lg bg-primary/10 flex-shrink-0">
+                  <h.icon className="w-5 h-5 text-primary" />
                 </div>
-              </Card>
-            ))}
-          </div>
+                <div>
+                  <h3 className="text-base font-semibold mb-1.5">{h.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{h.description}</p>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
