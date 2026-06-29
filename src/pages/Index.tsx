@@ -4,7 +4,6 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import CurrentlySection from "@/components/CurrentlySection";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/site-config";
@@ -27,7 +26,6 @@ const Index = () => {
           <About />
           <Skills />
           <Projects />
-          <CurrentlySection />
           <Contact />
         </main>
         <Footer />

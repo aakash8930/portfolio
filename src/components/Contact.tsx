@@ -1,6 +1,9 @@
 import { Mail, Linkedin, Github, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
+import { lazy, Suspense } from "react";
 import { siteConfig } from "@/lib/site-config";
+
+const ContactScene = lazy(() => import("./three/ContactScene"));
 
 const Contact = () => {
   const socialLinks = [
@@ -25,8 +28,19 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-24 px-6" aria-labelledby="contact-heading">
-      <div className="max-w-4xl mx-auto text-center">
+    <section
+      id="contact"
+      className="relative py-24 px-6 overflow-hidden isolate"
+      aria-labelledby="contact-heading"
+    >
+      {/* 3D scene behind the contact copy — full-height canvas. */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Suspense fallback={null}>
+          <ContactScene />
+        </Suspense>
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto text-center pt-12">
         <p className="text-sm uppercase tracking-widest text-primary mb-3">Contact</p>
         <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-4">
           Let's <span className="gradient-text">work together.</span>

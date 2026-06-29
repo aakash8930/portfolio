@@ -1,6 +1,7 @@
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "./ui/button";
 import TypingAnimation from "./TypingAnimation";
+import HeroScene from "./three/HeroScene";
 import { siteConfig, stats } from "@/lib/site-config";
 
 const Hero = () => {
@@ -14,10 +15,14 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-12"
       aria-labelledby="hero-heading"
     >
-      {/* Background: grid + mesh gradient. Subtle, modern. */}
-      <div className="absolute inset-0 z-0">
+      {/* Background: 3D scene + grid + mesh gradient + center spotlight.
+          The radial spotlight pulses with the repulsor in sync (CSS animation). */}
+      <HeroScene />
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-grid opacity-60" />
         <div className="absolute inset-0 mesh-gradient" />
+        {/* Reactor spotlight: warm glow from center, falls off to transparent. */}
+        <div className="absolute inset-0 hero-spotlight" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
       </div>
 
@@ -39,7 +44,10 @@ const Hero = () => {
             {siteConfig.role} · {siteConfig.location}
           </p>
 
-          <h1 id="hero-heading" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight animate-fade-in-up">
+          <h1
+            id="hero-heading"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight animate-fade-in-up hero-headline"
+          >
             Building <span className="gradient-text">real-time</span>
             <br />
             web products.

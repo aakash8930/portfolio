@@ -1,6 +1,11 @@
 import { skillCategories } from "@/lib/site-config";
+import SkillsConstellation from "./three/SkillsConstellation";
 
 const Skills = () => {
+  // Flatten categories into a single labels list for the 3D constellation.
+  // Mobile (< md) keeps the existing grid; desktop sees the constellation.
+  const allSkills = skillCategories.flatMap((c) => c.skills);
+
   return (
     <section id="skills" className="py-24 px-6 bg-secondary/30" aria-labelledby="skills-heading">
       <div className="max-w-5xl mx-auto">
@@ -9,9 +14,17 @@ const Skills = () => {
           <h2 id="skills-heading" className="text-4xl md:text-5xl font-bold">
             Skills & <span className="gradient-text">Technologies</span>
           </h2>
+          <p className="text-sm text-muted-foreground mt-3 md:hidden">
+            Drag (desktop) to orbit. Each node is one technology.
+          </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Desktop: 3D constellation. Mobile: grid fallback. */}
+        <div className="hidden md:block">
+          <SkillsConstellation labels={allSkills} />
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:hidden">
           {skillCategories.map((category, i) => (
             <div
               key={category.title}
