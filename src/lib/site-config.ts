@@ -3,7 +3,6 @@
 export const siteConfig = {
   name: "Aakash Singh",
   role: "Full Stack Developer",
-  email: "aakash.singh0953@gmail.com",
   location: "India",
   shortBio:
     "I build real-time web apps, e-commerce systems, and payment integrations. Currently shipping mail + tracking automation for a logistics client and shipping Resonate, a real-time synced music platform.",
@@ -12,7 +11,7 @@ export const siteConfig = {
     "I've built for paying clients (a furniture brand storefront, a logistics automation that talks to SAP HANA and Shipsgo, a PhonePe autopay integration) and for myself (Resonate, a real-time synced music platform; Aura, a full-stack e-commerce reference implementation).",
   ],
   social: {
-    github: "https://github.com/aakash8930",
+    github: "https://github.com/aakash8930", 
     freelancer: "https://www.freelancer.in/u/iamfreelancer79",
   },
   currently: [

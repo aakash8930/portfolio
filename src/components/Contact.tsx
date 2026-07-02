@@ -28,17 +28,19 @@ const Contact = () => {
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
               Open to freelance full-stack work, integrations, and interesting
-              collaborations. The fastest way to reach me is email — I usually
-              reply within a day.
+              collaborations. The fastest way to reach me is GitHub or
+              Freelancer — I usually reply within a day.
             </p>
           </Reveal>
 
           <Reveal delay={0.3}>
             <a
-              href={`mailto:${siteConfig.email}`}
+              href={siteConfig.social.freelancer}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group mt-10 inline-flex items-center gap-3 text-lg font-medium md:text-2xl"
             >
-              <span className="link-draw">{siteConfig.email}</span>
+              <span className="link-draw">Hire me on Freelancer</span>
               <ArrowUpRight className="h-5 w-5 text-primary transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-6 md:w-6" />
             </a>
           </Reveal>
@@ -54,12 +56,12 @@ const Contact = () => {
                 GitHub
               </a>
               <a
-                href={siteConfig.social.linkedin}
+                href={siteConfig.social.freelancer}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-draw label transition-colors hover:text-foreground"
               >
-                LinkedIn
+                Freelancer
               </a>
               <span className="label text-muted-foreground/60">
                 Based in {siteConfig.location}

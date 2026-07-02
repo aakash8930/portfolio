@@ -63,7 +63,9 @@ const Hero = () => {
             <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
           </button>
           <a
-            href={`mailto:${siteConfig.email}`}
+            href={siteConfig.social.freelancer}
+            target="_blank"
+            rel="noopener noreferrer"
             className="link-draw inline-flex items-center gap-1.5 text-sm font-medium"
           >
             Get in touch
