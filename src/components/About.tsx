@@ -1,67 +1,63 @@
-import { Code2, GitBranch, Layers, Zap } from "lucide-react";
-import { Card } from "./ui/card";
+import { Reveal } from "./Reveal";
 import { siteConfig } from "@/lib/site-config";
-
-const highlights = [
-  {
-    icon: Code2,
-    title: "End-to-end builds",
-    description: "From data model to deploy — backend plumbing, real-time systems, payments, the parts that actually decide whether a product works.",
-  },
-  {
-    icon: Layers,
-    title: "Architecture that bends",
-    description: "Monorepos, type-safe boundaries, pluggable providers. Designs that survive the next requirement change without a rewrite.",
-  },
-  {
-    icon: GitBranch,
-    title: "Integrations & APIs",
-    description: "SAP HANA, Stripe, PhonePe, Shipsgo, OAuth, webhooks. Glue work that connects products to the rest of the world.",
-  },
-  {
-    icon: Zap,
-    title: "Shipped, not demoed",
-    description: "Every project in this portfolio is live, in production, or in the hands of a paying client.",
-  },
-];
 
 const About = () => {
   return (
-    <section id="about" className="py-24 px-6" aria-labelledby="about-heading">
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-14 text-center">
-          <p className="text-sm uppercase tracking-widest text-primary mb-3">About</p>
-          <h2 id="about-heading" className="text-4xl md:text-5xl font-bold">
-            <span className="gradient-text">Aakash</span>, briefly.
-          </h2>
-        </div>
+    <section id="about" className="relative px-6 py-28 md:py-40" aria-labelledby="about-heading">
+      <div className="mx-auto max-w-6xl">
+        <div className="hairline grid gap-10 pt-10 md:grid-cols-12 md:gap-8">
+          {/* Sticky section marker. */}
+          <div className="md:col-span-4">
+            <Reveal>
+              <p className="label md:sticky md:top-28">
+                <span className="text-primary">01</span> — About
+              </p>
+            </Reveal>
+          </div>
 
-        <div className="space-y-5 text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-14">
-          {siteConfig.longBio.map((p, i) => (
-            <p key={i} className="animate-fade-in-up" style={{ animationDelay: `${i * 80}ms` }}>
-              {p}
-            </p>
-          ))}
-        </div>
+          <div className="md:col-span-8">
+            <Reveal>
+              <h2 id="about-heading" className="display text-3xl leading-snug md:text-4xl lg:text-[2.75rem]">
+                I like the unglamorous plumbing that makes products work.
+              </h2>
+            </Reveal>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          {highlights.map((h, i) => (
-            <Card
-              key={h.title}
-              className="p-5 bg-card border-border card-hover animate-fade-in-up"
-              style={{ animationDelay: `${i * 80}ms` }}
-            >
-              <div className="flex items-start gap-4">
-                <div className="p-2.5 rounded-lg bg-primary/10 flex-shrink-0">
-                  <h.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold mb-1.5">{h.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{h.description}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
+            <div className="mt-8 max-w-2xl space-y-5">
+              {siteConfig.longBio.map((para, i) => (
+                <Reveal key={i} delay={0.1 + i * 0.08}>
+                  <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+                    {para}
+                  </p>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="mt-14 grid gap-10 sm:grid-cols-2">
+              <Reveal delay={0.15}>
+                <h3 className="label mb-5">Currently</h3>
+                <ul className="space-y-4">
+                  {siteConfig.currently.map((item) => (
+                    <li key={item.label} className="border-l border-primary/40 pl-4">
+                      <p className="text-sm font-medium">{item.label}</p>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{item.detail}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              <Reveal delay={0.25}>
+                <h3 className="label mb-5">Open to</h3>
+                <ul className="space-y-3">
+                  {siteConfig.openTo.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
         </div>
       </div>
     </section>

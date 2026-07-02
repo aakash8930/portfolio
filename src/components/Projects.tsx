@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
-import { projects, type Project } from "@/lib/site-config";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, Github, Plus } from "lucide-react";
+import { Reveal } from "./Reveal";
 import { CoverArt } from "./CoverArt";
-import { CaseStudyModal } from "./CaseStudyModal";
+import { projects, type Project } from "@/lib/site-config";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const CATEGORY_LABEL: Record<Project["category"], string> = {
   "web-app": "Web App",
@@ -12,48 +15,39 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
 };
 
 const Projects = () => {
-  const [active, setActive] = useState<Project | null>(null);
+  const [openId, setOpenId] = useState<string | null>(projects[0]?.id ?? null);
 
   return (
-    <section
-      id="projects"
-      className="py-28 md:py-36 px-6"
-      aria-labelledby="projects-heading"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section header — left-aligned editorial style, not centered. */}
-        <div className="mb-16 md:mb-20 max-w-2xl">
-          <p className="text-sm uppercase tracking-widest text-primary mb-4">
-            Selected work · {projects.length} projects
-          </p>
-          <h2
-            id="projects-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight"
-          >
-            Real things I've <span className="gradient-text">shipped</span>.
-          </h2>
+    <section id="work" className="relative px-6 py-28 md:py-40" aria-labelledby="work-heading">
+      <div className="mx-auto max-w-6xl">
+        <div className="hairline flex flex-wrap items-end justify-between gap-4 pt-10">
+          <Reveal>
+            <p className="label mb-4">
+              <span className="text-primary">02</span> — Selected work
+            </p>
+            <h2 id="work-heading" className="display text-4xl md:text-5xl lg:text-6xl">
+              Things I've shipped.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="label pb-2">{projects.length} projects · 2025–26</p>
+          </Reveal>
         </div>
 
-        {/* Editorial list — vertical stack of project rows. Each row is image
-            + minimal text. Larger image, more whitespace, no card chrome. */}
-        <div className="space-y-20 md:space-y-28">
+        <div className="mt-16">
           {projects.map((project, i) => (
             <ProjectRow
               key={project.id}
               project={project}
               index={i}
-              reverse={i % 2 === 1}
-              onOpen={() => setActive(project)}
+              open={openId === project.id}
+              onToggle={() =>
+                setOpenId(openId === project.id ? null : project.id)
+              }
             />
           ))}
         </div>
-
-        <p className="text-center text-sm text-muted-foreground mt-20">
-          Click any project for the full case study.
-        </p>
       </div>
-
-      <CaseStudyModal project={active} onOpenChange={(o) => !o && setActive(null)} />
     </section>
   );
 };
@@ -61,72 +55,139 @@ const Projects = () => {
 function ProjectRow({
   project,
   index,
-  reverse,
-  onOpen,
+  open,
+  onToggle,
 }: {
   project: Project;
   index: number;
-  reverse: boolean;
-  onOpen: () => void;
+  open: boolean;
+  onToggle: () => void;
 }) {
+  const caseStudy = [
+    { title: "Problem", body: project.problem },
+    { title: "Approach", body: project.approach },
+    { title: "Outcome", body: project.outcome },
+  ].filter((s): s is { title: string; body: string } => Boolean(s.body));
+
   return (
-    <article
-      className="animate-fade-in-up"
-      style={{ animationDelay: `${index * 100}ms` }}
-    >
-      <button
-        type="button"
-        onClick={onOpen}
-        aria-label={`Open ${project.title} case study`}
-        className="group block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
-      >
-        <div
-          className={`grid md:grid-cols-12 gap-6 md:gap-10 items-center ${
-            reverse ? "md:[&>*:first-child]:order-last" : ""
-          }`}
+    <Reveal delay={Math.min(index * 0.05, 0.2)} y={20}>
+      <article className="hairline">
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          className="group grid w-full grid-cols-[auto_1fr_auto] items-baseline gap-4 py-7 text-left md:grid-cols-[3rem_1fr_auto_auto] md:gap-8 md:py-9"
         >
-          {/* Cover art — large, the dominant element. */}
-          <div className="md:col-span-7 relative overflow-hidden rounded-lg border border-border bg-card">
-            <CoverArt
-              variant={project.cover}
-              className="rounded-none border-0 w-full aspect-[16/10] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            />
-            {/* Hover arrow badge. */}
-            <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              <ArrowUpRight className="w-4 h-4 text-primary" />
-            </div>
-          </div>
+          <span className="label text-primary">
+            {String(index + 1).padStart(2, "0")}
+          </span>
 
-          {/* Meta column — minimal, single column, big title. */}
-          <div className="md:col-span-5 space-y-5">
-            <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
-              <span className="text-primary font-semibold">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="h-px w-6 bg-border" />
-              <span>{CATEGORY_LABEL[project.category]}</span>
-              <span className="h-px w-6 bg-border" />
-              <span>{project.year}</span>
-            </div>
-
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight group-hover:text-primary transition-colors duration-300">
+          <span className="min-w-0">
+            <span
+              className={`display block text-2xl transition-colors duration-300 md:text-4xl ${
+                open ? "text-primary" : "group-hover:text-primary"
+              }`}
+            >
               {project.title}
-            </h3>
-
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+            </span>
+            <span className="mt-1.5 block truncate text-sm text-muted-foreground">
               {project.oneLiner}
-            </p>
+            </span>
+          </span>
 
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-2 text-sm font-medium text-foreground/90 group-hover:text-primary transition-colors">
-                View case study
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </button>
-    </article>
+          <span className="label hidden text-right md:block">
+            {CATEGORY_LABEL[project.category]}
+            <span className="mt-1 block text-muted-foreground/60">{project.year}</span>
+          </span>
+
+          <span
+            className={`flex h-9 w-9 items-center justify-center self-center rounded-full border border-border transition-all duration-300 ${
+              open
+                ? "rotate-45 border-primary text-primary"
+                : "group-hover:border-primary group-hover:text-primary"
+            }`}
+            aria-hidden="true"
+          >
+            <Plus className="h-4 w-4" />
+          </span>
+        </button>
+
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="overflow-hidden"
+            >
+              <div className="grid gap-8 pb-12 md:grid-cols-12 md:gap-10">
+                <div className="md:col-span-6">
+                  <CoverArt variant={project.cover} className="rounded-sm" />
+                </div>
+
+                <div className="md:col-span-6">
+                  <p className="label mb-3">{project.role}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {project.description}
+                  </p>
+
+                  {caseStudy.length > 0 && (
+                    <dl className="mt-6 space-y-4">
+                      {caseStudy.map((s) => (
+                        <div key={s.title}>
+                          <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+                            {s.title}
+                          </dt>
+                          <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                            {s.body}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
+                  <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-1.5">
+                    {project.tech.map((t) => (
+                      <li key={t} className="text-xs tracking-wide text-muted-foreground">
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {(project.live || project.github) && (
+                    <div className="mt-7 flex flex-wrap gap-5">
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="link-draw inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+                        >
+                          Visit live site
+                          <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                      )}
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="link-draw inline-flex items-center gap-1.5 text-sm font-medium"
+                        >
+                          <Github className="h-4 w-4" />
+                          Source
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </article>
+    </Reveal>
   );
 }
 
