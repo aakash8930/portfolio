@@ -13,8 +13,7 @@ export const siteConfig = {
   ],
   social: {
     github: "https://github.com/aakash8930",
-    linkedin: "https://www.linkedin.com/in/aakash-singh-web-app-developer",
-    email: "aakash.singh0953@gmail.com",
+    freelancer: "https://www.freelancer.in/u/iamfreelancer79",
   },
   currently: [
     { label: "Resonate", detail: "real-time synced music rooms — adding mobile & daily stats" },
