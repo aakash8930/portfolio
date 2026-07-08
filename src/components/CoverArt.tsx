@@ -181,47 +181,11 @@ function HanaShipsgo() {
 
 function Makhana() {
   return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "radial-gradient(at 30% 30%, hsl(140 50% 45% / 0.45), transparent 60%), radial-gradient(at 80% 80%, hsl(45 70% 50% / 0.35), transparent 60%), hsl(150 30% 10%)",
-      }}
-    >
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="m-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="hsl(140 60% 65%)" />
-            <stop offset="1" stopColor="hsl(45 80% 60%)" />
-          </linearGradient>
-        </defs>
-        {/* Makhana (fox nut) puffs scattered */}
-        {[
-          { x: 80, y: 70, r: 14 },
-          { x: 130, y: 110, r: 18 },
-          { x: 195, y: 80, r: 16 },
-          { x: 250, y: 130, r: 20 },
-          { x: 310, y: 95, r: 14 },
-          { x: 105, y: 160, r: 12 },
-          { x: 175, y: 165, r: 15 },
-          { x: 280, y: 170, r: 13 },
-        ].map((c, i) => (
-          <g key={i}>
-            <circle cx={c.x} cy={c.y} r={c.r} fill="url(#m-grad)" opacity={0.85 - i * 0.04} />
-            <circle cx={c.x - c.r * 0.25} cy={c.y - c.r * 0.25} r={c.r * 0.3} fill="hsl(45 90% 85%)" opacity="0.5" />
-          </g>
-        ))}
-        {/* Leaf accent */}
-        <path
-          d="M 340 40 Q 360 60 350 90 Q 330 80 340 40 Z"
-          fill="hsl(140 70% 55%)"
-          opacity="0.7"
-        />
-        <text x="200" y="200" textAnchor="middle" fill="hsl(140 30% 80%)" fontSize="11" fontFamily="ui-monospace, monospace" opacity="0.7">
-          healthy snack · ecommerce
-        </text>
-      </svg>
-    </div>
+     <img                                                                                                                                                                                                                    
+           src="/makhana-cover.png"                                                                                                                                                                                              
+           alt="Makhana Health King cover"                                                                                                                                                                                       
+           className="absolute inset-0 h-full w-full object-cover"                                                                                                                                                               
+      /> 
   );
 }
 
