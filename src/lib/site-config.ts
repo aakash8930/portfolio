@@ -102,7 +102,7 @@ export const projects: Project[] = [
     description:
       "Designed and shipped a hosted marketing + product site for a healthy-snack (makhana / fox nuts) client. Handled end-to-end: layout, copy, deployment on Hostinger VPS, and ongoing iteration based on customer feedback.",
     tech: ["Next.js", "React", "Tailwind CSS", "Hostinger VPS"],
-    live: "https://makhanahealthking.com/",
+    live: "https://aakash-ideapad-3-15iml05-u-1.tail7a4203.ts.net/",
     cover: "makhana",
   },
   {
