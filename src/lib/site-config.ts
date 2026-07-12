@@ -5,17 +5,18 @@ export const siteConfig = {
   role: "Full Stack Developer",
   location: "India",
   shortBio:
-    "I build real-time web apps, e-commerce systems, and payment integrations. Currently shipping mail + tracking automation for a logistics client and shipping Resonate, a real-time synced music platform.",
+    "I build real-time web apps, e-commerce platforms, and payment integrations — and I run what I build. Four of my projects are live right now on self-hosted Docker stacks, including DapiGO, a multi-vendor delivery platform spanning seven apps.",
   longBio: [
     "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, the unglamorous plumbing that makes products work. My favorite projects are the ones where the data model has to be right and the architecture has to bend without breaking.",
-    "I've built for paying clients (a furniture brand storefront, a logistics automation that talks to SAP HANA and Shipsgo, a PhonePe autopay integration) and for myself (Resonate, a real-time synced music platform; Aura, a full-stack e-commerce reference implementation).",
+    "I've built for paying clients (a furniture storefront, a logistics automation that talks to SAP HANA and Shipsgo, a PhonePe autopay integration) and I ship platforms end to end: DapiGO, a multi-vendor delivery marketplace with three mobile apps; Vanam, a furniture store built around real 3D; AVAASchool, a multi-tenant preschool system with a Flutter parent app.",
   ],
   social: {
     github: "https://github.com/aakash8930", 
     freelancer: "https://www.freelancer.in/u/iamfreelancer79",
   },
   currently: [
-    { label: "Resonate", detail: "real-time synced music rooms — adding mobile & daily stats" },
+    { label: "DapiGO", detail: "multi-vendor delivery platform — shipping the Expo apps to testers" },
+    { label: "Vanam", detail: "3D-forward furniture commerce, rebuilt from a client storefront" },
     { label: "HANA ↔ Shipsgo", detail: "mail automation + tracking sync for a logistics client" },
   ],
   openTo: [
@@ -34,7 +35,7 @@ export const siteConfig = {
 export type Project = {
   id: string;
   title: string;
-  category: "web-app" | "ecommerce" | "client" | "integration";
+  category: "web-app" | "ecommerce" | "client" | "integration" | "platform";
   year: string;
   role: string;
   oneLiner: string;
@@ -45,11 +46,80 @@ export type Project = {
   outcome?: string;
   github?: string;
   live?: string;
-  cover: "resonate" | "aura" | "ultracore" | "hana" | "phonepe" | "makhana";
+  cover:
+    | "resonate"
+    | "aura"
+    | "ultracore"
+    | "hana"
+    | "phonepe"
+    | "makhana"
+    | "vanam"
+    | "school"
+    | "dapigo";
   featured?: boolean;
 };
 
+// Self-hosted stacks share one Tailscale Funnel host.
+const FUNNEL = "https://aakash-ideapad-3-15iml05-u-1.tail7a4203.ts.net";
+
 export const projects: Project[] = [
+  {
+    id: "dapigo",
+    title: "DapiGO",
+    category: "platform",
+    year: "2026",
+    role: "Solo build — 7 apps",
+    oneLiner: "Multi-vendor delivery platform — web, consoles, and three mobile apps.",
+    description:
+      "A full delivery marketplace: a Next.js 16 storefront, three role-scoped consoles (admin, partner, rider), an Express + MongoDB API, and three Expo apps for customers, partners and riders. Live order tracking over Socket.IO with a Leaflet map, four payment gateways, wallets, referrals and Hindi/English i18n.",
+    problem:
+      "The original DapiGO was a CodeIgniter + Flutter build that had become expensive to change — every new feature meant touching PHP, a Flutter app, and a schema nobody trusted.",
+    approach:
+      "Rebuilt it as one JavaScript stack with a server-authoritative core: cart pricing, the order status machine and settlement all live behind the API, so the seven clients can't disagree about money or state. Payment webhooks are idempotent and signature-verified; the whole thing ships as a Docker Compose stack behind nginx.",
+    outcome:
+      "Reached feature parity with v1 and shipped, with 79 backend tests covering the flows a migration silently breaks — the OTP gate, cart pricing, the status machine, and webhook fulfilment.",
+    tech: ["Next.js 16", "React", "Express", "MongoDB", "Socket.IO", "Expo", "Razorpay", "Stripe", "Docker"],
+    live: `${FUNNEL}/dapigo/`,
+    cover: "dapigo",
+    featured: true,
+  },
+  {
+    id: "vanam",
+    title: "Vanam",
+    category: "ecommerce",
+    year: "2026",
+    role: "Solo build",
+    oneLiner: "A furniture storefront where you turn the product in your hand before you buy.",
+    description:
+      "A 3D-forward commerce platform for solid-wood furniture — real-time WebGL product viewing built with React Three Fiber, over an Express + MongoDB API with Socket.IO and Razorpay. Rebuilt from the ground up out of the earlier Ultracore Wood client site.",
+    problem:
+      "Furniture is the worst category for flat product photos: customers can't judge grain, proportion or finish from a fixed angle, and that uncertainty is what stops the checkout.",
+    approach:
+      "Put a real 3D viewer at the center of the storefront instead of a carousel — true grain, honest lighting, and a model you can rotate — and kept the commerce plumbing (catalog, cart, orders, payments) conventional and server-authoritative behind it.",
+    tech: ["React 19", "three.js", "React Three Fiber", "Express", "MongoDB", "Socket.IO", "Razorpay", "Docker"],
+    live: `${FUNNEL}:8443/`,
+    github: "https://github.com/aakash8930/vanam-customer",
+    cover: "vanam",
+    featured: true,
+  },
+  {
+    id: "school",
+    title: "AVAASchool",
+    category: "platform",
+    year: "2026",
+    role: "Solo build",
+    oneLiner: "Multi-tenant preschool management — admin web app plus a Flutter parent app.",
+    description:
+      "A platform that onboards multiple schools onto one system: a NestJS + MongoDB backend, a React admin console for the platform operator, and a Flutter app that schools and parents use day to day. Parents sign in with a phone OTP rather than yet another password.",
+    problem:
+      "Preschools run on WhatsApp groups and paper registers. The people who need the data — parents — are the ones least likely to install and maintain a login.",
+    approach:
+      "Made the tenant the first-class object so a new school is an onboarding step, not a deployment, and made parent auth passwordless via phone OTP with anti-enumeration on the request endpoint. The backend continuously deploys itself from GitHub main via a systemd timer.",
+    tech: ["NestJS", "MongoDB", "React", "Flutter", "Socket.IO", "JWT"],
+    live: `${FUNNEL}:10000/`,
+    cover: "school",
+    featured: true,
+  },
   {
     id: "resonate",
     title: "Resonate",
@@ -87,9 +157,9 @@ export const projects: Project[] = [
     role: "Freelance — paid",
     oneLiner: "Production storefront for a wood-products brand.",
     description:
-      "Designed and shipped a hosted marketing + product site for a wood-products client. Handled end-to-end: layout, copy, deployment, and ongoing iteration based on customer feedback.",
+      "Designed and shipped a hosted marketing + product site for a wood-products client. Handled end-to-end: layout, copy, deployment, and ongoing iteration based on customer feedback. Still live and serving the client — and the project I later rebuilt from scratch as Vanam, this time with real 3D at the center.",
     tech: ["React", "Tailwind CSS", "Vercel"],
-    live: "https://ultracorewood.com/", // fill in once user shares the URL
+    live: "https://ultracorewood.com/",
     cover: "ultracore",
   },
   {
@@ -98,11 +168,11 @@ export const projects: Project[] = [
     category: "ecommerce",
     year: "2025",
     role: "Freelance — paid",
-    oneLiner: "D2C storefront for a healthy-snack brand, hosted on Hostinger VPS.",
+    oneLiner: "D2C storefront for a healthy-snack brand — catalog, cart, payments, admin.",
     description:
-      "Designed and shipped a hosted marketing + product site for a healthy-snack (makhana / fox nuts) client. Handled end-to-end: layout, copy, deployment on Hostinger VPS, and ongoing iteration based on customer feedback.",
-    tech: ["Next.js", "React", "Tailwind CSS", "Hostinger VPS"],
-    live: "https://aakash-ideapad-3-15iml05-u-1.tail7a4203.ts.net/",
+      "A full commerce stack for a makhana (fox nut) brand, not just a marketing page: a Next.js storefront with search, gift boxes and a build-your-own-box flow, an Express + MongoDB API with Razorpay checkout, and an admin console for catalog and orders. Ships as a Docker Compose stack behind nginx.",
+    tech: ["Next.js", "React", "Express", "MongoDB", "Razorpay", "Tailwind CSS", "Docker", "nginx"],
+    live: `${FUNNEL}/`,
     cover: "makhana",
   },
   {
@@ -179,7 +249,7 @@ export const skillCategories = [
 ] as const;
 
 export const stats = [
-  { value: "5+", label: "Projects shipped" },
+  { value: "9", label: "Projects shipped" },
   { value: "3+", label: "Paid clients" },
-  { value: "1", label: "Open-source repo (Resonate)" },
+  { value: "4", label: "Live self-hosted stacks" },
 ];

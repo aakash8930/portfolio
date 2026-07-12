@@ -12,6 +12,7 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
   ecommerce: "E-commerce",
   client: "Client Work",
   integration: "Integration",
+  platform: "Platform",
 };
 
 const Projects = () => {

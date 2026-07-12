@@ -1,30 +1,88 @@
+import { lazy, Suspense } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "resonate" | "aura" | "ultracore" | "hana" | "phonepe" | "makhana";
+type Variant =
+  | "resonate"
+  | "aura"
+  | "ultracore"
+  | "hana"
+  | "phonepe"
+  | "makhana"
+  | "vanam"
+  | "school"
+  | "dapigo";
 
 type CoverArtProps = {
   variant: Variant;
   className?: string;
 };
 
-// Per-project cover art. Stylized SVG, not screenshots.
-// Each variant picks a distinct color treatment so project categories
-// are visually distinguishable at a glance.
+// three.js only ships to visitors who actually open one of the 3D covers.
+const HanaCover = lazy(() =>
+  import("./three/CoverScenes").then((m) => ({ default: m.HanaCover }))
+);
+const PhonePeCover = lazy(() =>
+  import("./three/CoverScenes").then((m) => ({ default: m.PhonePeCover }))
+);
+
+// Per-project cover art, in three flavors:
+//   - shipped products with a UI      → a real screenshot
+//   - integrations with no UI to show → a live 3D scene of what they do
+//   - the rest                        → stylized SVG
+const SHOTS: Partial<Record<Variant, { src: string; alt: string }>> = {
+  makhana: { src: "/covers/makhana.webp", alt: "Makhana Health King storefront" },
+  vanam: { src: "/covers/vanam.webp", alt: "Vanam furniture storefront with a 3D hero" },
+  school: { src: "/covers/school.webp", alt: "AVAASchool admin dashboard" },
+  dapigo: { src: "/covers/dapigo.webp", alt: "DapiGO customer storefront" },
+};
+
 export function CoverArt({ variant, className }: CoverArtProps) {
+  const shot = SHOTS[variant];
+
   return (
     <div
-      aria-hidden="true"
       className={cn(
         "relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-border",
         className
       )}
     >
-      {variant === "resonate" && <Resonate />}
-      {variant === "aura" && <Aura />}
-      {variant === "ultracore" && <Ultracore />}
-      {variant === "hana" && <HanaShipsgo />}
-      {variant === "phonepe" && <PhonePe />}
-      {variant === "makhana" && <Makhana />}
+      {shot ? (
+        <img
+          src={shot.src}
+          alt={shot.alt}
+          loading="lazy"
+          decoding="async"
+          width={1600}
+          height={900}
+          className="absolute inset-0 h-full w-full object-cover object-top"
+        />
+      ) : (
+        <div aria-hidden="true" className="absolute inset-0">
+          {variant === "resonate" && <Resonate />}
+          {variant === "aura" && <Aura />}
+          {variant === "ultracore" && <Ultracore />}
+          {variant === "hana" && <Scene3D variant="hana" />}
+          {variant === "phonepe" && <Scene3D variant="phonepe" />}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// The gradient is a real backdrop, not a placeholder: the canvas is alpha and
+// renders on top of it. It also stands in on its own if WebGL never comes up.
+const SCENE_BACKDROP: Record<"hana" | "phonepe", string> = {
+  hana: "linear-gradient(135deg, hsl(35 80% 30%) 0%, hsl(220 30% 14%) 55%, hsl(210 45% 20%) 100%)",
+  phonepe:
+    "radial-gradient(at 50% 45%, hsl(280 70% 32%) 0%, hsl(265 60% 16%) 55%, hsl(260 55% 10%) 100%)",
+};
+
+function Scene3D({ variant }: { variant: "hana" | "phonepe" }) {
+  return (
+    <div className="absolute inset-0" style={{ background: SCENE_BACKDROP[variant] }}>
+      <Suspense fallback={null}>
+        {variant === "hana" ? <HanaCover /> : <PhonePeCover />}
+      </Suspense>
     </div>
   );
 }
@@ -133,97 +191,5 @@ function Ultracore() {
   );
 }
 
-function HanaShipsgo() {
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(35 80% 30%) 0%, hsl(220 30% 18%) 100%)",
-      }}
-    >
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="h-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="hsl(35 90% 60%)" />
-            <stop offset="1" stopColor="hsl(200 90% 55%)" />
-          </linearGradient>
-        </defs>
-        {/* Two nodes with bidirectional arrows */}
-        <g>
-          <rect x="40" y="85" width="90" height="55" rx="6" fill="hsl(35 80% 45%)" opacity="0.85" />
-          <text x="85" y="118" textAnchor="middle" fill="white" fontSize="14" fontFamily="ui-sans-serif, system-ui" fontWeight="600">
-            HANA
-          </text>
-          <rect x="270" y="85" width="90" height="55" rx="6" fill="hsl(200 80% 50%)" opacity="0.85" />
-          <text x="315" y="118" textAnchor="middle" fill="white" fontSize="13" fontFamily="ui-sans-serif, system-ui" fontWeight="600">
-            Shipsgo
-          </text>
-          {/* Bidirectional arrow */}
-          <line x1="135" y1="105" x2="265" y2="105" stroke="url(#h-grad)" strokeWidth="2" markerEnd="url(#arrow)" markerStart="url(#arrow-rev)" />
-          <line x1="135" y1="125" x2="265" y2="125" stroke="url(#h-grad)" strokeWidth="2" markerEnd="url(#arrow)" markerStart="url(#arrow-rev)" />
-        </g>
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(200 90% 60%)" />
-          </marker>
-          <marker id="arrow-rev" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 10 0 L 0 5 L 10 10 z" fill="hsl(35 90% 60%)" />
-          </marker>
-        </defs>
-        <text x="200" y="180" textAnchor="middle" fill="hsl(35 30% 80%)" fontSize="11" fontFamily="ui-monospace, monospace" opacity="0.7">
-          mail · db sync · tracking
-        </text>
-      </svg>
-    </div>
-  );
-}
 
-function Makhana() {
-  return (
-     <img                                                                                                                                                                                                                    
-           src="/makhana-cover.png"                                                                                                                                                                                              
-           alt="Makhana Health King cover"                                                                                                                                                                                       
-           className="absolute inset-0 h-full w-full object-cover"                                                                                                                                                               
-      /> 
-  );
-}
 
-function PhonePe() {
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background:
-          "radial-gradient(at 50% 50%, hsl(280 70% 35%) 0%, hsl(260 60% 15%) 100%)",
-      }}
-    >
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="p-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="hsl(320 80% 65%)" />
-            <stop offset="1" stopColor="hsl(280 70% 55%)" />
-          </linearGradient>
-        </defs>
-        {/* Mandate / recurring card */}
-        <g transform="translate(80, 50)">
-          <rect x="0" y="0" width="240" height="125" rx="14" fill="hsl(280 50% 22%)" stroke="url(#p-grad)" strokeWidth="2" />
-          <text x="20" y="32" fill="hsl(320 80% 75%)" fontSize="11" fontFamily="ui-monospace, monospace" opacity="0.8">
-            AUTOPAY MANDATE
-          </text>
-          <text x="20" y="65" fill="hsl(0 0% 100%)" fontSize="22" fontFamily="ui-sans-serif, system-ui" fontWeight="700">
-            ₹ 1,499
-          </text>
-          <text x="20" y="85" fill="hsl(320 30% 80%)" fontSize="11" fontFamily="ui-monospace, monospace" opacity="0.7">
-            every month · next debit
-          </text>
-          {/* Recurring arrows */}
-          <g transform="translate(180, 95)">
-            <path d="M 0 0 A 12 12 0 1 1 12 -12" fill="none" stroke="url(#p-grad)" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 12 -16 L 14 -10 L 8 -12 z" fill="hsl(320 80% 70%)" />
-          </g>
-        </g>
-      </svg>
-    </div>
-  );
-}
