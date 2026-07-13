@@ -5,7 +5,7 @@ export const siteConfig = {
   role: "Full Stack Developer",
   location: "India",
   shortBio:
-    "I build real-time web apps, e-commerce platforms, and payment integrations — and I run what I build. Four of my projects are live right now on self-hosted Docker stacks, including DapiGO, a multi-vendor delivery platform spanning seven apps.",
+    "I build real-time web apps, e-commerce platforms, payment integrations and ML systems — and I run what I build. Five of my projects are live right now on self-hosted stacks, including DapiGO, a multi-vendor delivery platform spanning seven apps, and QuantX, a trading system that publishes its own performance.",
   longBio: [
     "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, the unglamorous plumbing that makes products work. My favorite projects are the ones where the data model has to be right and the architecture has to bend without breaking.",
     "I've built for paying clients (a furniture storefront, a logistics automation that talks to SAP HANA and Shipsgo, a PhonePe autopay integration) and I ship platforms end to end: DapiGO, a multi-vendor delivery marketplace with three mobile apps; Vanam, a furniture store built around real 3D; AVAASchool, a multi-tenant preschool system with a Flutter parent app.",
@@ -15,8 +15,8 @@ export const siteConfig = {
     freelancer: "https://www.freelancer.in/u/iamfreelancer79",
   },
   currently: [
+    { label: "QuantX", detail: "ML trading system — improving the models now the scoreboard is honest" },
     { label: "DapiGO", detail: "multi-vendor delivery platform — shipping the Expo apps to testers" },
-    { label: "Vanam", detail: "3D-forward furniture commerce, rebuilt from a client storefront" },
     { label: "HANA ↔ Shipsgo", detail: "mail automation + tracking sync for a logistics client" },
   ],
   openTo: [
@@ -35,7 +35,7 @@ export const siteConfig = {
 export type Project = {
   id: string;
   title: string;
-  category: "web-app" | "ecommerce" | "client" | "integration" | "platform";
+  category: "web-app" | "ecommerce" | "client" | "integration" | "platform" | "ml";
   year: string;
   role: string;
   oneLiner: string;
@@ -55,7 +55,8 @@ export type Project = {
     | "makhana"
     | "vanam"
     | "school"
-    | "dapigo";
+    | "dapigo"
+    | "quantx";
   featured?: boolean;
 };
 
@@ -63,6 +64,26 @@ export type Project = {
 const FUNNEL = "https://aakash-ideapad-3-15iml05-u-1.tail7a4203.ts.net";
 
 export const projects: Project[] = [
+  {
+    id: "quantx",
+    title: "QuantX",
+    category: "ml",
+    year: "2026",
+    role: "Solo build — research + engineering",
+    oneLiner: "An autonomous crypto trading system, and an honest scoreboard for it.",
+    description:
+      "Per-symbol XGBoost + LightGBM ensembles trained on triple-barrier labels, a regime detector, a dynamic coin universe and ATR-based risk sizing — running live on Binance testnet as a systemd service. The public dashboard reports its own performance, including the losses.",
+    problem:
+      "Every retail trading bot can show you a P&L curve. Almost none can answer the question that actually matters: is the model any good? The risk gates reject most signals before they ever become trades, so realised P&L measures the gates, not the model.",
+    approach:
+      "Score every entry signal against its own projected barriers — whether or not it was executed — and resolve each to hit-target / stopped-out / undecided. That turns model quality into a confidence-calibration chart: if the model knows anything, its hit rate should climb with its confidence. Doing this properly surfaced a bug that had been silently poisoning the system: the outcome tracker was fetching the newest price bars instead of the bars after each signal, so signals were being graded against price action that predated them. One signal that had reached its take-profit was recorded as a stop-out — and those outcomes were feeding the strategy weights, so the learning loop was training on noise.",
+    outcome:
+      "The scoreboard now measures the right thing, the corrupted history has been re-scored, and a regression test fails if the tracker ever looks at a pre-signal bar again. The dashboard states its own conclusions — and refuses to claim an edge from a sample too small to support one.",
+    tech: ["Python", "XGBoost", "LightGBM", "scikit-learn", "pandas", "SQLite", "three.js", "Vite"],
+    live: `${FUNNEL}/quantx/`,
+    cover: "quantx",
+    featured: true,
+  },
   {
     id: "dapigo",
     title: "DapiGO",
@@ -249,7 +270,7 @@ export const skillCategories = [
 ] as const;
 
 export const stats = [
-  { value: "9", label: "Projects shipped" },
+  { value: "10", label: "Projects shipped" },
   { value: "3+", label: "Paid clients" },
-  { value: "4", label: "Live self-hosted stacks" },
+  { value: "5", label: "Live self-hosted stacks" },
 ];

@@ -10,7 +10,8 @@ type Variant =
   | "makhana"
   | "vanam"
   | "school"
-  | "dapigo";
+  | "dapigo"
+  | "quantx";
 
 type CoverArtProps = {
   variant: Variant;
@@ -34,6 +35,7 @@ const SHOTS: Partial<Record<Variant, { src: string; alt: string }>> = {
   vanam: { src: "/covers/vanam.webp", alt: "Vanam furniture storefront with a 3D hero" },
   school: { src: "/covers/school.webp", alt: "AVAASchool admin dashboard" },
   dapigo: { src: "/covers/dapigo.webp", alt: "DapiGO customer storefront" },
+  quantx: { src: "/covers/quantx.webp", alt: "QuantX trading dashboard — equity curve and signal stats" },
 };
 
 export function CoverArt({ variant, className }: CoverArtProps) {

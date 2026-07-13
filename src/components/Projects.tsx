@@ -13,6 +13,7 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
   client: "Client Work",
   integration: "Integration",
   platform: "Platform",
+  ml: "Machine Learning",
 };
 
 const Projects = () => {
