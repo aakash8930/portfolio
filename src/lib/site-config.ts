@@ -69,7 +69,7 @@ export const projects: Project[] = [
     title: "QuantX",
     category: "ml",
     year: "2026",
-    role: "Solo build — research + engineering",
+    role: "Research + engineering",
     oneLiner: "An autonomous crypto trading system, and an honest scoreboard for it.",
     description:
       "Per-symbol XGBoost + LightGBM ensembles trained on triple-barrier labels, a regime detector, a dynamic coin universe and ATR-based risk sizing — running live on Binance testnet as a systemd service. The public dashboard reports its own performance, including the losses.",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
     title: "DapiGO",
     category: "platform",
     year: "2026",
-    role: "Solo build — 7 apps",
+    role: "End-to-end, 7 apps",
     oneLiner: "Multi-vendor delivery platform — web, consoles, and three mobile apps.",
     description:
       "A full delivery marketplace: a Next.js 16 storefront, three role-scoped consoles (admin, partner, rider), an Express + MongoDB API, and three Expo apps for customers, partners and riders. Live order tracking over Socket.IO with a Leaflet map, four payment gateways, wallets, referrals and Hindi/English i18n.",
@@ -109,7 +109,7 @@ export const projects: Project[] = [
     title: "Vanam",
     category: "ecommerce",
     year: "2026",
-    role: "Solo build",
+    role: "Full-stack build",
     oneLiner: "A furniture storefront where you turn the product in your hand before you buy.",
     description:
       "A 3D-forward commerce platform for solid-wood furniture — real-time WebGL product viewing built with React Three Fiber, over an Express + MongoDB API with Socket.IO and Razorpay. Rebuilt from the ground up out of the earlier Ultracore Wood client site.",
@@ -128,7 +128,7 @@ export const projects: Project[] = [
     title: "AVAASchool",
     category: "platform",
     year: "2026",
-    role: "Solo build",
+    role: "Full-stack build",
     oneLiner: "Multi-tenant preschool management — admin web app plus a Flutter parent app.",
     description:
       "A platform that onboards multiple schools onto one system: a NestJS + MongoDB backend, a React admin console for the platform operator, and a Flutter app that schools and parents use day to day. Parents sign in with a phone OTP rather than yet another password.",
@@ -146,7 +146,7 @@ export const projects: Project[] = [
     title: "Resonate",
     category: "web-app",
     year: "2025",
-    role: "Solo build",
+    role: "Full-stack build",
     oneLiner: "Real-time synced music rooms — everyone hears the same beat.",
     description:
       "A music platform where hosts run rooms and every listener stays in lockstep within 250 ms. Multilingual search across JioSaavn, Jamendo, and user uploads; drag-to-reorder playlists; keyboard shortcuts; mobile-first.",
@@ -161,7 +161,7 @@ export const projects: Project[] = [
     title: "Aura E-Commerce",
     category: "ecommerce",
     year: "2025",
-    role: "Solo build",
+    role: "Full-stack build",
     oneLiner: "Full-stack reference e-commerce — storefront, admin, payments.",
     description:
       "Monorepo with three apps: a Next.js 16 storefront with server components, a Vite + React admin SPA with revenue dashboard and CRUD, and an Express API handling JWT + Google OAuth + Stripe webhooks. Prisma over SQLite/Postgres.",
