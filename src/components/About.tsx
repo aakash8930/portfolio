@@ -33,7 +33,20 @@ const About = () => {
               ))}
             </div>
 
-            <Reveal delay={0.24}>
+            <Reveal delay={0.3}>
+              <div className="mt-8 flex flex-wrap gap-2" aria-label="What I do">
+                {siteConfig.roles.map((role) => (
+                  <span
+                    key={role}
+                    className="rounded-full border border-primary/30 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+                  >
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.34}>
               <a
                 href={siteConfig.studio.url}
                 target="_blank"

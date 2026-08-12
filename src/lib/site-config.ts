@@ -7,8 +7,9 @@ export const siteConfig = {
   shortBio:
     "I build and run full-stack products across real-time marketplaces, e-commerce, payments and ML. Recent live work includes DapiGO, ZipMart, Makhana and Vanam, shipped with DuForge.",
   longBio: [
-    "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, and the unglamorous plumbing that makes products work. My favorite projects are the ones where the data model has to be right and the architecture has to bend without breaking.",
+    "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, and data models that have to be right the first time. The projects I enjoy most are the ones where the architecture has to bend without breaking.",
     "I take products from first schema to production: multi-role marketplaces, 3D commerce, mobile apps, payment flows and client integrations. For client work, I build with DuForge, an independent software studio where I focus on product engineering and delivery.",
+    "Based in Haryana, India, I work across time zones and prefer owning a product end to end — from the first schema to the hundredth deploy. When I'm not shipping, I'm usually tuning models on my QuantX trading system or exploring a new three.js idea.",
   ],
   studio: {
     name: "DuForge",
@@ -24,13 +25,14 @@ export const siteConfig = {
   },
   currently: [
     { label: "QuantX", detail: "ML trading system — improving the models now the scoreboard is honest" },
-    { label: "DapiGO", detail: "nearly finished — hardening the live marketplace and mobile flows" },
+    { label: "DapiGO", detail: "hardening the live marketplace and mobile flows for launch" },
     { label: "DuForge", detail: "shipping and maintaining marketplace, commerce and product builds" },
   ],
   openTo: [
     "Full-time full-stack and backend product roles",
     "Freelance product builds through DuForge",
     "Real-time, commerce and systems-integration work",
+    "Short consulting or rescue missions on live products",
   ],
   roles: [
     "Full Stack Developer",
