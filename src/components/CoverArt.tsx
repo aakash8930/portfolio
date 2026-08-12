@@ -11,6 +11,7 @@ type Variant =
   | "vanam"
   | "school"
   | "dapigo"
+  | "zipmart"
   | "quantx";
 
 type CoverArtProps = {
@@ -62,6 +63,7 @@ export function CoverArt({ variant, className }: CoverArtProps) {
         <div aria-hidden="true" className="absolute inset-0">
           {variant === "resonate" && <Resonate />}
           {variant === "aura" && <Aura />}
+          {variant === "zipmart" && <ZipMart />}
           {variant === "ultracore" && <Ultracore />}
           {variant === "hana" && <Scene3D variant="hana" />}
           {variant === "phonepe" && <Scene3D variant="phonepe" />}
@@ -152,6 +154,71 @@ function Aura() {
         </g>
         <text x="200" y="190" textAnchor="middle" fill="hsl(280 30% 80%)" fontSize="14" fontFamily="ui-monospace, monospace" opacity="0.6">
           storefront · admin · api
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function ZipMart() {
+  return (
+    <div
+      className="absolute inset-0"
+      style={{
+        background:
+          "radial-gradient(at 75% 18%, hsl(82 90% 52% / 0.2), transparent 38%), linear-gradient(145deg, hsl(150 34% 7%) 0%, hsl(148 26% 11%) 100%)",
+      }}
+    >
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="zm-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="hsl(82 90% 62%)" />
+            <stop offset="1" stopColor="hsl(150 70% 42%)" />
+          </linearGradient>
+          <filter id="zm-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <g opacity="0.18" stroke="hsl(82 60% 65%)" strokeWidth="0.6">
+          {[44, 76, 108, 140, 172].map((y) => (
+            <line key={y} x1="24" y1={y} x2="376" y2={y} />
+          ))}
+          {[40, 104, 168, 232, 296, 360].map((x) => (
+            <line key={x} x1={x} y1="28" x2={x} y2="190" />
+          ))}
+        </g>
+
+        <g transform="translate(48 46)">
+          <rect width="206" height="126" rx="12" fill="hsl(150 24% 13%)" stroke="hsl(82 70% 58% / 0.5)" />
+          <rect x="15" y="17" width="78" height="8" rx="4" fill="url(#zm-grad)" />
+          <rect x="15" y="36" width="176" height="1" fill="hsl(150 16% 28%)" />
+          {[0, 1, 2].map((i) => (
+            <g key={i} transform={`translate(${15 + i * 61} 52)`}>
+              <rect width="50" height="54" rx="7" fill="hsl(150 20% 18%)" stroke="hsl(150 16% 28%)" />
+              <circle cx="25" cy="19" r="10" fill="hsl(82 70% 55% / 0.14)" />
+              <path
+                d={i === 0 ? "M20 23c0-8 10-12 14-7-1 8-6 13-14 7Z" : i === 1 ? "M17 21h16l-3 8H20Z" : "M19 26c1-9 11-14 14-5-2 6-7 9-14 5Z"}
+                fill="url(#zm-grad)"
+              />
+              <rect x="10" y="39" width="30" height="3" rx="1.5" fill="hsl(150 14% 36%)" />
+            </g>
+          ))}
+        </g>
+
+        <g transform="translate(278 60)" filter="url(#zm-glow)">
+          <circle cx="42" cy="42" r="39" fill="hsl(150 30% 12%)" stroke="url(#zm-grad)" strokeWidth="2" />
+          <path d="M46 14 28 46h15l-5 25 21-36H44Z" fill="url(#zm-grad)" />
+        </g>
+        <text x="319" y="166" textAnchor="middle" fill="hsl(82 62% 66%)" fontSize="12" fontWeight="700" fontFamily="ui-monospace, monospace" letterSpacing="1.5">
+          ZIPMART
+        </text>
+        <text x="319" y="182" textAnchor="middle" fill="hsl(150 10% 60%)" fontSize="7" fontFamily="ui-monospace, monospace" letterSpacing="1">
+          CART → DOORSTEP
         </text>
       </svg>
     </div>

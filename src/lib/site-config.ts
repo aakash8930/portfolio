@@ -3,26 +3,34 @@
 export const siteConfig = {
   name: "Aakash Singh",
   role: "Full Stack Developer",
-  location: "India",
+  location: "Haryana, India",
   shortBio:
-    "I build real-time web apps, e-commerce platforms, payment integrations and ML systems — and I run what I build. Five of my projects are live right now on self-hosted stacks, including DapiGO, a multi-vendor delivery platform spanning seven apps, and QuantX, a trading system that publishes its own performance.",
+    "I build and run full-stack products across real-time marketplaces, e-commerce, payments and ML. Recent live work includes DapiGO, ZipMart, Makhana and Vanam, shipped with DuForge.",
   longBio: [
-    "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, the unglamorous plumbing that makes products work. My favorite projects are the ones where the data model has to be right and the architecture has to bend without breaking.",
-    "I've built for paying clients (a furniture storefront, a logistics automation that talks to SAP HANA and Shipsgo, a PhonePe autopay integration) and I ship platforms end to end: DapiGO, a multi-vendor delivery marketplace with three mobile apps; Vanam, a furniture store built around real 3D; AVAASchool, a multi-tenant preschool system with a Flutter parent app.",
+    "I'm a full-stack developer who likes hard problems — real-time sync, payments, ERP integrations, and the unglamorous plumbing that makes products work. My favorite projects are the ones where the data model has to be right and the architecture has to bend without breaking.",
+    "I take products from first schema to production: multi-role marketplaces, 3D commerce, mobile apps, payment flows and client integrations. For client work, I build with DuForge, an independent software studio where I focus on product engineering and delivery.",
   ],
+  studio: {
+    name: "DuForge",
+    url: "https://duforge.tech/",
+    detail:
+      "An independent software studio currently operating as an Udyam-registered sole proprietorship. My role is product engineering and delivery.",
+  },
   social: {
-    github: "https://github.com/aakash8930", 
+    email: "mailto:hello@duforge.tech",
+    github: "https://github.com/aakash8930",
     freelancer: "https://www.freelancer.in/u/iamfreelancer79",
+    duforge: "https://duforge.tech/",
   },
   currently: [
     { label: "QuantX", detail: "ML trading system — improving the models now the scoreboard is honest" },
-    { label: "DapiGO", detail: "multi-vendor delivery platform — shipping the Expo apps to testers" },
-    { label: "HANA ↔ Shipsgo", detail: "mail automation + tracking sync for a logistics client" },
+    { label: "DapiGO", detail: "nearly finished — hardening the live marketplace and mobile flows" },
+    { label: "DuForge", detail: "shipping and maintaining marketplace, commerce and product builds" },
   ],
   openTo: [
-    "Freelance full-stack work (Next.js, Node, integrations)",
-    "Backend / real-time systems consulting",
-    "Interesting collaborations, not cold pitches",
+    "Full-time full-stack and backend product roles",
+    "Freelance product builds through DuForge",
+    "Real-time, commerce and systems-integration work",
   ],
   roles: [
     "Full Stack Developer",
@@ -56,6 +64,7 @@ export type Project = {
     | "vanam"
     | "school"
     | "dapigo"
+    | "zipmart"
     | "quantx";
   featured?: boolean;
 };
@@ -100,7 +109,7 @@ export const projects: Project[] = [
     outcome:
       "Reached feature parity with v1 and shipped, with 79 backend tests covering the flows a migration silently breaks — the OTP gate, cart pricing, the status machine, and webhook fulfilment.",
     tech: ["Next.js 16", "React", "Express", "MongoDB", "Socket.IO", "Expo", "Razorpay", "Stripe", "Docker"],
-    live: `${FUNNEL}/dapigo/`,
+    live: "https://cravecart.duforge.tech/",
     cover: "dapigo",
     featured: true,
   },
@@ -118,7 +127,7 @@ export const projects: Project[] = [
     approach:
       "Put a real 3D viewer at the center of the storefront instead of a carousel — true grain, honest lighting, and a model you can rotate — and kept the commerce plumbing (catalog, cart, orders, payments) conventional and server-authoritative behind it.",
     tech: ["React 19", "three.js", "React Three Fiber", "Express", "MongoDB", "Socket.IO", "Razorpay", "Docker"],
-    live: `${FUNNEL}:8443/`,
+    live: "https://vanam.duforge.tech/",
     github: "https://github.com/aakash8930/vanam-customer",
     cover: "vanam",
     featured: true,
@@ -193,8 +202,27 @@ export const projects: Project[] = [
     description:
       "A full commerce stack for a makhana (fox nut) brand, not just a marketing page: a Next.js storefront with search, gift boxes and a build-your-own-box flow, an Express + MongoDB API with Razorpay checkout, and an admin console for catalog and orders. Ships as a Docker Compose stack behind nginx.",
     tech: ["Next.js", "React", "Express", "MongoDB", "Razorpay", "Tailwind CSS", "Docker", "nginx"],
-    live: `${FUNNEL}/`,
+    live: "https://makhana.duforge.tech/",
     cover: "makhana",
+  },
+  {
+    id: "zipmart",
+    title: "ZipMart",
+    category: "platform",
+    year: "2026",
+    role: "Full-stack build · 4 roles",
+    oneLiner: "Instant grocery delivery for customers, stores, riders and operators.",
+    description:
+      "A quick-commerce grocery platform with four coordinated surfaces: customers place orders, stores accept and pack them, delivery partners fulfil them, and admins oversee the marketplace. Live order tracking, Razorpay payments and chat-based support connect the journey from cart to doorstep.",
+    problem:
+      "Quick-commerce is a coordination problem disguised as a storefront. Inventory, payment and delivery state can change in seconds, while four different roles need a clear and consistent view of the same order.",
+    approach:
+      "Built role-scoped experiences around a shared order lifecycle, with real-time status updates carrying each order from store acceptance through packing and delivery. Payments stay tied to server-side order state, and support remains available inside the product when an automated flow needs a person.",
+    outcome:
+      "Shipped a live end-to-end grocery delivery demo that shows the complete multi-role product, not just the customer catalog.",
+    tech: ["Quick-commerce", "Role-based access", "Live tracking", "Razorpay", "Support chat"],
+    live: "https://zipmart.duforge.tech/",
+    cover: "zipmart",
   },
   {
     id: "hana-shipsgo",
@@ -210,7 +238,7 @@ export const projects: Project[] = [
     approach:
       "Built a worker that watches HANA for order state changes, pushes tracking IDs into Shipsgo, polls Shipsgo for status events, writes them back to HANA, and triggers templated mail on each meaningful transition. Idempotent on retries, with a dead-letter log for the few cases that need human review.",
     outcome:
-      "Order updates now propagate within minutes instead of hours, and the operations team stopped doing data entry.",
+      "Delivered and handed over to the client. Order updates now propagate within minutes instead of hours, and the operations team no longer has to repeat the same data entry across systems.",
     tech: ["Python", "SAP HANA", "Shipsgo API", "SMTP", "Cron"],
     cover: "hana",
   },
@@ -270,7 +298,7 @@ export const skillCategories = [
 ] as const;
 
 export const stats = [
-  { value: "10", label: "Projects shipped" },
+  { value: "11", label: "Projects shipped" },
   { value: "3+", label: "Paid clients" },
-  { value: "5", label: "Live self-hosted stacks" },
+  { value: "6", label: "Live self-hosted stacks" },
 ];
