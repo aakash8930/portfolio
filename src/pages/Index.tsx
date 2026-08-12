@@ -8,6 +8,7 @@ import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { siteConfig } from "@/lib/site-config";
 
 // The 3D scene is the heaviest chunk — lazy-load it so first paint is instant.
@@ -27,10 +28,14 @@ const Index = () => {
       <SmoothScroll />
 
       <div className="relative min-h-screen">
-        {/* Fixed 3D particle field behind everything. */}
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
+        {/* Fixed 3D particle field behind everything. Decorative: if the
+            canvas fails (blocked WebGL, sandboxed iframe) we drop it rather
+            than let the page go blank. */}
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <Scene />
+          </Suspense>
+        </ErrorBoundary>
         {/* Film grain overlay above the canvas, below content. */}
         <div className="grain pointer-events-none fixed inset-0 z-[1]" aria-hidden="true" />
 

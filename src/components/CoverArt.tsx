@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { cn } from "@/lib/utils";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 type Variant =
   | "resonate"
@@ -84,9 +85,14 @@ const SCENE_BACKDROP: Record<"hana" | "phonepe", string> = {
 function Scene3D({ variant }: { variant: "hana" | "phonepe" }) {
   return (
     <div className="absolute inset-0" style={{ background: SCENE_BACKDROP[variant] }}>
-      <Suspense fallback={null}>
-        {variant === "hana" ? <HanaCover /> : <PhonePeCover />}
-      </Suspense>
+      {/* The gradient backdrop stays visible; only the canvas is dropped if
+          WebGL is unavailable. Without this boundary the R3F error would
+          propagate up and blank the entire page. */}
+      <ErrorBoundary fallback={null}>
+        <Suspense fallback={null}>
+          {variant === "hana" ? <HanaCover /> : <PhonePeCover />}
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
