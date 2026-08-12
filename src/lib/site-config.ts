@@ -259,7 +259,7 @@ export const projects: Project[] = [
       "Implemented PhonePe's mandate-based autopay: initiate a one-time auth, persist the mandate token, charge against the mandate on the billing schedule, and reconcile webhook events against expected debits. Surfaced failure modes (declined, expired, paused) into the merchant's existing notification system.",
     outcome:
       "Recurring revenue collection went manual-to-automated, with clear visibility into which mandates were active, paused, or had failed.",
-    tech: ["PhP", "PhonePe API", "Webhooks", "JWT", "PostgreSQL"],
+    tech: ["PHP", "PhonePe API", "Webhooks", "JWT", "PostgreSQL"],
     cover: "phonepe",
   },
 ];

@@ -19,7 +19,7 @@ const About = () => {
           <div className="md:col-span-8">
             <Reveal>
               <h2 id="about-heading" className="display text-3xl leading-snug md:text-4xl lg:text-[2.75rem]">
-                I like the unglamorous plumbing that makes products work.
+                I build products that have to work.
               </h2>
             </Reveal>
 
