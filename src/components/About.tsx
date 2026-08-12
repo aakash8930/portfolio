@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { siteConfig } from "@/lib/site-config";
 
@@ -31,6 +32,24 @@ const About = () => {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal delay={0.24}>
+              <a
+                href={siteConfig.studio.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-10 block border-l border-primary/50 bg-primary/[0.035] px-5 py-4 transition-colors hover:bg-primary/[0.07]"
+              >
+                <span className="label">Building with</span>
+                <span className="mt-2 flex items-center gap-2 font-display text-lg font-medium">
+                  {siteConfig.studio.name}
+                  <ArrowUpRight className="h-4 w-4 text-primary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+                <span className="mt-1.5 block max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  {siteConfig.studio.detail}
+                </span>
+              </a>
+            </Reveal>
 
             <div className="mt-14 grid gap-10 sm:grid-cols-2">
               <Reveal delay={0.15}>

@@ -55,12 +55,10 @@ const Navbar = () => {
             </button>
           ))}
           <a
-            href={siteConfig.social.freelancer}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={siteConfig.social.email}
             className="rounded-full border border-border px-4 py-1.5 text-sm transition-colors hover:border-primary hover:text-primary"
           >
-            Hire me
+            Let's talk
           </a>
         </div>
 
@@ -110,12 +108,10 @@ const Navbar = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.4 }}
-              href={siteConfig.social.freelancer}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={siteConfig.social.email}
               className="label mt-10 text-primary"
             >
-              Hire me on Freelancer
+              Start a conversation
             </motion.a>
           </motion.div>
         )}

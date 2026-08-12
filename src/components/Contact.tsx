@@ -26,21 +26,19 @@ const Contact = () => {
           </h2>
 
           <Reveal delay={0.2}>
-            <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-              Open to freelance full-stack work, integrations, and interesting
-              collaborations. The fastest way to reach me is GitHub or
-              Freelancer — I usually reply within a day.
+            <p className="mt-8 max-w-lg text-base leading-relaxed text-muted-foreground">
+              Open to full-time product engineering roles, freelance builds
+              through DuForge, and interesting collaborations. Email is the
+              fastest way to reach me — I usually reply within a day.
             </p>
           </Reveal>
 
           <Reveal delay={0.3}>
             <a
-              href={siteConfig.social.freelancer}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={siteConfig.social.email}
               className="group mt-10 inline-flex items-center gap-3 text-lg font-medium md:text-2xl"
             >
-              <span className="link-draw">Hire me on Freelancer</span>
+              <span className="link-draw">hello@duforge.tech</span>
               <ArrowUpRight className="h-5 w-5 text-primary transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-6 md:w-6" />
             </a>
           </Reveal>
@@ -54,6 +52,14 @@ const Contact = () => {
                 className="link-draw label transition-colors hover:text-foreground"
               >
                 GitHub
+              </a>
+              <a
+                href={siteConfig.social.duforge}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-draw label transition-colors hover:text-foreground"
+              >
+                DuForge
               </a>
               <a
                 href={siteConfig.social.freelancer}
