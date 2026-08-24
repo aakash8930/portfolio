@@ -279,7 +279,7 @@ export const skillCategories = [
   },
   {
     title: "Backend",
-    skills: ["Node.js", "Express", "Fastify", "Socket.IO", "REST APIs", "GraphQL"],
+    skills: ["Node.js", "Express", "Fastify", "Socket.IO", "ASP.NET / .NET", "REST APIs", "GraphQL"],
   },
   {
     title: "Data & Storage",
