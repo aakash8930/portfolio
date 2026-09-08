@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Github, Plus, Play } from "lucide-react";
+import { ArrowUpRight, Github, Plus } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { CoverArt } from "./CoverArt";
+import { coverStill } from "@/lib/covers";
+import { ProjectVideo } from "./ProjectVideo";
 import { projects, type Project } from "@/lib/site-config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -52,52 +54,23 @@ const Projects = () => {
           ))}
         </div>
       </div>
-
-      {/* Hidden preloader to force browser to fetch videos immediately */}
-      <div className="hidden" aria-hidden="true">
-        {ALL_PROJECTS.filter((p) => p.video).map((p) => (
-          <video
-            key={p.id}
-            src={`/project-videos/${p.video}`}
-            preload="auto"
-            muted
-            playsInline
-            style={{ display: 'none' }}
-          />
-        ))}
-      </div>
     </section>
   );
 };
 
 function ProjectMedia({ project }: { project: Project }) {
-  const video = project.video;
+  const cover = <CoverArt variant={project.cover} className="rounded-sm" />;
 
-  if (video) {
-    return (
-      <div className="relative aspect-video overflow-hidden rounded-sm bg-black">
-        <video
-          className="h-full w-full object-cover"
-          muted
-          loop
-          playsInline
-          autoPlay
-          controls
-          preload="auto"
-          aria-label={`${project.title} project demo`}
-        >
-          <source src={`/project-videos/${video}`} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur">
-          <Play className="h-3 w-3 fill-current" />
-          Project demo
-        </div>
-      </div>
-    );
-  }
+  if (!project.video) return cover;
 
-  return <CoverArt variant={project.cover} className="rounded-sm" />;
+  return (
+    <ProjectVideo
+      src={`/project-videos/${project.video}`}
+      label={`${project.title} project demo`}
+      poster={coverStill(project.cover)?.src}
+      fallback={cover}
+    />
+  );
 }
 
 function ProjectRow({

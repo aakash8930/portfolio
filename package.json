@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predev": "node scripts/check-media.mjs",
     "build": "vite build",
+    "prebuild": "node scripts/check-media.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:media": "node scripts/check-media.mjs",
+    "media:preview": "node scripts/make-preview-media.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

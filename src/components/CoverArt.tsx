@@ -1,22 +1,10 @@
 import { lazy, Suspense } from "react";
 import { cn } from "@/lib/utils";
+import { coverStill, type CoverVariant } from "@/lib/covers";
 import { ErrorBoundary } from "./ErrorBoundary";
 
-type Variant =
-  | "resonate"
-  | "aura"
-  | "ultracore"
-  | "hana"
-  | "phonepe"
-  | "makhana"
-  | "vanam"
-  | "school"
-  | "dapigo"
-  | "zipmart"
-  | "quantx";
-
 type CoverArtProps = {
-  variant: Variant;
+  variant: CoverVariant;
   className?: string;
 };
 
@@ -28,20 +16,8 @@ const PhonePeCover = lazy(() =>
   import("./three/CoverScenes").then((m) => ({ default: m.PhonePeCover }))
 );
 
-// Per-project cover art, in three flavors:
-//   - shipped products with a UI      → a real screenshot
-//   - integrations with no UI to show → a live 3D scene of what they do
-//   - the rest                        → stylized SVG
-const SHOTS: Partial<Record<Variant, { src: string; alt: string }>> = {
-  makhana: { src: "/covers/makhana.webp", alt: "Makhana Health King storefront" },
-  vanam: { src: "/covers/vanam.webp", alt: "Vanam furniture storefront with a 3D hero" },
-  school: { src: "/covers/school.webp", alt: "AVAASchool admin dashboard" },
-  dapigo: { src: "/covers/dapigo.webp", alt: "DapiGO customer storefront" },
-  quantx: { src: "/covers/quantx.webp", alt: "QuantX trading dashboard — equity curve and signal stats" },
-};
-
 export function CoverArt({ variant, className }: CoverArtProps) {
-  const shot = SHOTS[variant];
+  const shot = coverStill(variant);
 
   return (
     <div
