@@ -64,20 +64,21 @@ function ProjectMedia({ project }: { project: Project }) {
       <div className="relative aspect-video overflow-hidden rounded-sm bg-black">
         <video
           className="h-full w-full object-cover"
-          src={`/project-videos/${video}`}
           muted
           loop
           playsInline
           autoPlay
-          preload="metadata"
           controls
-          poster={undefined}
+          preload="auto"
           aria-label={`${project.title} project demo`}
-        />
+        >
+          <source src={`/project-videos/${video}`} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur">
           <Play className="h-3 w-3 fill-current" />
           Project demo
-        </div>
+        </div}
       </div>
     );
   }
