@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Github, Plus } from "lucide-react";
+import { ArrowUpRight, Github, Plus, Play } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { CoverArt } from "./CoverArt";
 import { projects, type Project } from "@/lib/site-config";
@@ -15,6 +15,16 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
   platform: "Platform",
   ml: "Machine Learning",
 };
+
+const DEMO_REELS = [
+  { name: "Apex", file: "Apex.mp4" },
+  { name: "Cadence", file: "Cadence.mp4" },
+  { name: "Ember", file: "Ember.mp4" },
+  { name: "Genko", file: "Genko.mp4" },
+  { name: "H71 Web", file: "H71-web.mp4" },
+  { name: "Quantx", file: "Quantx.mp4" },
+  { name: "Verion", file: "Verion.mp4" },
+];
 
 const Projects = () => {
   const [openId, setOpenId] = useState<string | null>(projects[0]?.id ?? null);
@@ -49,10 +59,59 @@ const Projects = () => {
             />
           ))}
         </div>
+
+        <DemoReels />
       </div>
     </section>
   );
 };
+
+function DemoReels() {
+  return (
+    <div className="mt-24">
+      <Reveal>
+        <div className="hairline flex flex-wrap items-end justify-between gap-4 pt-10">
+          <div>
+            <p className="label mb-4">
+              <span className="text-primary">03</span> — Demo reels
+            </p>
+            <h3 className="display text-3xl md:text-4xl">See the work in motion.</h3>
+          </div>
+          <p className="label pb-1">{DEMO_REELS.length} recordings</p>
+        </div>
+      </Reveal>
+
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {DEMO_REELS.map((reel, index) => (
+          <Reveal key={reel.file} delay={Math.min(index * 0.04, 0.16)} y={20}>
+            <article className="group overflow-hidden rounded-sm border border-border bg-card/30">
+              <div className="relative aspect-video overflow-hidden bg-black">
+                <video
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  src={`/project-videos/${reel.file}`}
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  preload="metadata"
+                  aria-label={`${reel.name} project demo`}
+                />
+                <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur">
+                  <Play className="h-3 w-3 fill-current" />
+                  Demo
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-4 px-4 py-4">
+                <h4 className="display text-xl">{reel.name}</h4>
+                <span className="label text-muted-foreground">MP4</span>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ProjectRow({
   project,
