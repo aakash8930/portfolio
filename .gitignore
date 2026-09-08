@@ -26,3 +26,7 @@ dist-ssr
 # Build outputs
 .next
 .vercel
+
+# Locally generated stand-in clips for un-downloaded Git LFS demos.
+# Dev server only — see scripts/make-preview-media.mjs.
+.preview-media/
