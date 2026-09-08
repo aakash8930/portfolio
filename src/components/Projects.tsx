@@ -16,18 +16,99 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
   ml: "Machine Learning",
 };
 
-const DEMO_REELS = [
-  { name: "Apex", file: "Apex.mp4" },
-  { name: "Cadence", file: "Cadence.mp4" },
-  { name: "Ember", file: "Ember.mp4" },
-  { name: "Genko", file: "Genko.mp4" },
-  { name: "H71 Web", file: "H71-web.mp4" },
-  { name: "Quantx", file: "Quantx.mp4" },
-  { name: "Verion", file: "Verion.mp4" },
+const PROJECT_VIDEOS: Record<string, string> = {
+  apex: "Apex.mp4",
+  cadence: "Cadence.mp4",
+  ember: "Ember.mp4",
+  genko: "Genko.mp4",
+  h71: "H71-web.mp4",
+  quantx: "Quantx.mp4",
+  verion: "Verion.mp4",
+};
+
+const VIDEO_PROJECTS: Project[] = [
+  {
+    id: "apex",
+    title: "Apex",
+    category: "platform",
+    year: "2026",
+    role: "Product engineering",
+    oneLiner: "A focused product build with a polished interactive interface.",
+    description: "Apex is presented here through its recorded product walkthrough, highlighting the shipped interface and interaction flow.",
+    tech: ["TypeScript", "React", "Vite"],
+    github: "https://github.com/aakash8930/apex",
+    cover: "resonate",
+  },
+  {
+    id: "cadence",
+    title: "Cadence",
+    category: "web-app",
+    year: "2026",
+    role: "Product engineering",
+    oneLiner: "Interactive web product with a workflow-focused interface.",
+    description: "Cadence is showcased through the recorded build so the interface, interactions and product flow can be seen rather than represented by a static screenshot.",
+    tech: ["TypeScript", "React", "Vite"],
+    github: "https://github.com/aakash8930/cadence",
+    cover: "aura",
+  },
+  {
+    id: "ember",
+    title: "Ember",
+    category: "web-app",
+    year: "2026",
+    role: "Product engineering",
+    oneLiner: "Interactive product experience captured as a working demo.",
+    description: "Ember is included as a video-first project entry, giving the portfolio a direct view of the working product instead of a static cover.",
+    tech: ["TypeScript", "React", "Web App"],
+    github: "https://github.com/aakash8930/ember",
+    cover: "ultracore",
+  },
+  {
+    id: "genko",
+    title: "Genko",
+    category: "web-app",
+    year: "2026",
+    role: "Product engineering",
+    oneLiner: "A modern product interface demonstrated through a full walkthrough.",
+    description: "Genko is represented by its project recording so visitors can see the actual interface and interaction details.",
+    tech: ["TypeScript", "React", "Vite"],
+    cover: "hana",
+  },
+  {
+    id: "h71",
+    title: "H71",
+    category: "web-app",
+    year: "2026",
+    role: "Product build",
+    oneLiner: "A web product with its complete interface captured in a walkthrough.",
+    description: "H71 is shown using the recorded web demo, making the shipped experience visible directly inside the portfolio.",
+    tech: ["TypeScript", "React", "Vite"],
+    github: "https://github.com/aakash8930/h71",
+    live: "https://h71.vercel.app",
+    cover: "school",
+  },
+  {
+    id: "verion",
+    title: "Verion",
+    category: "web-app",
+    year: "2026",
+    role: "Product engineering",
+    oneLiner: "A product experience presented through a working interface demo.",
+    description: "Verion is included as a video-first portfolio project so the working product is visible without relying on a static image.",
+    tech: ["TypeScript", "React", "Web App"],
+    github: "https://github.com/aakash8930/verion",
+    cover: "vanam",
+  },
+];
+
+const ALL_PROJECTS = [
+  projects.find((project) => project.id === "quantx")!,
+  ...VIDEO_PROJECTS,
+  ...projects.filter((project) => project.id !== "quantx"),
 ];
 
 const Projects = () => {
-  const [openId, setOpenId] = useState<string | null>(projects[0]?.id ?? null);
+  const [openId, setOpenId] = useState<string | null>(ALL_PROJECTS[0]?.id ?? null);
 
   return (
     <section id="work" className="relative px-6 py-28 md:py-40" aria-labelledby="work-heading">
@@ -42,12 +123,12 @@ const Projects = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="label pb-2">{projects.length} projects · 2025–26</p>
+            <p className="label pb-2">{ALL_PROJECTS.length} projects · 2025–26</p>
           </Reveal>
         </div>
 
         <div className="mt-16">
-          {projects.map((project, i) => (
+          {ALL_PROJECTS.map((project, i) => (
             <ProjectRow
               key={project.id}
               project={project}
@@ -59,58 +140,38 @@ const Projects = () => {
             />
           ))}
         </div>
-
-        <DemoReels />
       </div>
     </section>
   );
 };
 
-function DemoReels() {
-  return (
-    <div className="mt-24">
-      <Reveal>
-        <div className="hairline flex flex-wrap items-end justify-between gap-4 pt-10">
-          <div>
-            <p className="label mb-4">
-              <span className="text-primary">03</span> — Demo reels
-            </p>
-            <h3 className="display text-3xl md:text-4xl">See the work in motion.</h3>
-          </div>
-          <p className="label pb-1">{DEMO_REELS.length} recordings</p>
-        </div>
-      </Reveal>
+function ProjectMedia({ project }: { project: Project }) {
+  const video = PROJECT_VIDEOS[project.id];
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        {DEMO_REELS.map((reel, index) => (
-          <Reveal key={reel.file} delay={Math.min(index * 0.04, 0.16)} y={20}>
-            <article className="group overflow-hidden rounded-sm border border-border bg-card/30">
-              <div className="relative aspect-video overflow-hidden bg-black">
-                <video
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  src={`/project-videos/${reel.file}`}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay
-                  preload="metadata"
-                  aria-label={`${reel.name} project demo`}
-                />
-                <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur">
-                  <Play className="h-3 w-3 fill-current" />
-                  Demo
-                </div>
-              </div>
-              <div className="flex items-center justify-between gap-4 px-4 py-4">
-                <h4 className="display text-xl">{reel.name}</h4>
-                <span className="label text-muted-foreground">MP4</span>
-              </div>
-            </article>
-          </Reveal>
-        ))}
+  if (video) {
+    return (
+      <div className="relative aspect-video overflow-hidden rounded-sm bg-black">
+        <video
+          className="h-full w-full object-cover"
+          src={`/project-videos/${video}`}
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="metadata"
+          controls
+          poster={undefined}
+          aria-label={`${project.title} project demo`}
+        />
+        <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur">
+          <Play className="h-3 w-3 fill-current" />
+          Project demo
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return <CoverArt variant={project.cover} className="rounded-sm" />;
 }
 
 function ProjectRow({
@@ -184,7 +245,7 @@ function ProjectRow({
             >
               <div className="grid gap-8 pb-12 md:grid-cols-12 md:gap-10">
                 <div className="md:col-span-6">
-                  <CoverArt variant={project.cover} className="rounded-sm" />
+                  <ProjectMedia project={project} />
                 </div>
 
                 <div className="md:col-span-6">
