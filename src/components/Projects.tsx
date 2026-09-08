@@ -52,6 +52,20 @@ const Projects = () => {
           ))}
         </div>
       </div>
+
+      {/* Hidden preloader to force browser to fetch videos immediately */}
+      <div className="hidden" aria-hidden="true">
+        {ALL_PROJECTS.filter((p) => p.video).map((p) => (
+          <video
+            key={p.id}
+            src={`/project-videos/${p.video}`}
+            preload="auto"
+            muted
+            playsInline
+            style={{ display: 'none' }}
+          />
+        ))}
+      </div>
     </section>
   );
 };
