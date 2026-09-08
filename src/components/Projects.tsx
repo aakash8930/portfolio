@@ -16,96 +16,7 @@ const CATEGORY_LABEL: Record<Project["category"], string> = {
   ml: "Machine Learning",
 };
 
-const PROJECT_VIDEOS: Record<string, string> = {
-  apex: "Apex.mp4",
-  cadence: "Cadence.mp4",
-  ember: "Ember.mp4",
-  genko: "Genko.mp4",
-  h71: "H71-web.mp4",
-  quantx: "Quantx.mp4",
-  verion: "Verion.mp4",
-};
-
-const VIDEO_PROJECTS: Project[] = [
-  {
-    id: "apex",
-    title: "Apex",
-    category: "platform",
-    year: "2026",
-    role: "Product engineering",
-    oneLiner: "A focused product build with a polished interactive interface.",
-    description: "Apex is presented here through its recorded product walkthrough, highlighting the shipped interface and interaction flow.",
-    tech: ["TypeScript", "React", "Vite"],
-    github: "https://github.com/aakash8930/apex",
-    cover: "resonate",
-  },
-  {
-    id: "cadence",
-    title: "Cadence",
-    category: "web-app",
-    year: "2026",
-    role: "Product engineering",
-    oneLiner: "Interactive web product with a workflow-focused interface.",
-    description: "Cadence is showcased through the recorded build so the interface, interactions and product flow can be seen rather than represented by a static screenshot.",
-    tech: ["TypeScript", "React", "Vite"],
-    github: "https://github.com/aakash8930/cadence",
-    cover: "aura",
-  },
-  {
-    id: "ember",
-    title: "Ember",
-    category: "web-app",
-    year: "2026",
-    role: "Product engineering",
-    oneLiner: "Interactive product experience captured as a working demo.",
-    description: "Ember is included as a video-first project entry, giving the portfolio a direct view of the working product instead of a static cover.",
-    tech: ["TypeScript", "React", "Web App"],
-    github: "https://github.com/aakash8930/ember",
-    cover: "ultracore",
-  },
-  {
-    id: "genko",
-    title: "Genko",
-    category: "web-app",
-    year: "2026",
-    role: "Product engineering",
-    oneLiner: "A modern product interface demonstrated through a full walkthrough.",
-    description: "Genko is represented by its project recording so visitors can see the actual interface and interaction details.",
-    tech: ["TypeScript", "React", "Vite"],
-    cover: "hana",
-  },
-  {
-    id: "h71",
-    title: "H71",
-    category: "web-app",
-    year: "2026",
-    role: "Product build",
-    oneLiner: "A web product with its complete interface captured in a walkthrough.",
-    description: "H71 is shown using the recorded web demo, making the shipped experience visible directly inside the portfolio.",
-    tech: ["TypeScript", "React", "Vite"],
-    github: "https://github.com/aakash8930/h71",
-    live: "https://h71.vercel.app",
-    cover: "school",
-  },
-  {
-    id: "verion",
-    title: "Verion",
-    category: "web-app",
-    year: "2026",
-    role: "Product engineering",
-    oneLiner: "A product experience presented through a working interface demo.",
-    description: "Verion is included as a video-first portfolio project so the working product is visible without relying on a static image.",
-    tech: ["TypeScript", "React", "Web App"],
-    github: "https://github.com/aakash8930/verion",
-    cover: "vanam",
-  },
-];
-
-const ALL_PROJECTS = [
-  projects.find((project) => project.id === "quantx")!,
-  ...VIDEO_PROJECTS,
-  ...projects.filter((project) => project.id !== "quantx"),
-];
+const ALL_PROJECTS = projects;
 
 const Projects = () => {
   const [openId, setOpenId] = useState<string | null>(ALL_PROJECTS[0]?.id ?? null);
@@ -146,7 +57,7 @@ const Projects = () => {
 };
 
 function ProjectMedia({ project }: { project: Project }) {
-  const video = PROJECT_VIDEOS[project.id];
+  const video = project.video;
 
   if (video) {
     return (
