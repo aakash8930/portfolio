@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import SequenceHero from "@/components/SequenceHero";
+import HeroReel from "@/components/HeroReel";
 import About from "@/components/About";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import OtherProjects from "@/components/OtherProjects";
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div id="top" className="flex flex-1 flex-col">
       <Nav />
-      <SequenceHero />
+      <HeroReel />
       <About />
       <ProjectShowcase />
       <OtherProjects />

@@ -1,31 +1,23 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { flagshipProjects, type FlagshipProject } from "@/lib/data";
+import { featuredProjects, type Project } from "@/lib/data";
 import Reveal from "./Reveal";
+import ProjectVideo from "./ProjectVideo";
 
-function ShowcaseRow({ project, index }: { project: FlagshipProject; index: number }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+function ComingSoonFrame({ project }: { project: Project }) {
+  return (
+    <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-dashed border-border bg-surface">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+        <span className="font-mono text-5xl font-semibold tracking-tight text-foreground/20 sm:text-7xl">
+          {project.name.charAt(0)}
+        </span>
+        <span className="rounded-full border border-border px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-muted">
+          Recording coming soon
+        </span>
+      </div>
+    </div>
+  );
+}
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      },
-      { threshold: 0.35 }
-    );
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
+function ShowcaseRow({ project, index }: { project: Project; index: number }) {
   const reversed = index % 2 === 1;
 
   return (
@@ -36,22 +28,17 @@ function ShowcaseRow({ project, index }: { project: FlagshipProject; index: numb
       }`}
     >
       <Reveal className="md:w-3/5">
-        <div className="overflow-hidden rounded-2xl border border-border bg-surface">
-          <video
-            ref={videoRef}
-            src={project.video}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="aspect-video w-full object-cover"
-          />
-        </div>
+        {project.video ? (
+          <ProjectVideo src={project.video} name={project.name} />
+        ) : (
+          <ComingSoonFrame project={project} />
+        )}
       </Reveal>
 
       <Reveal className="md:w-2/5" delay={100}>
         <span className="text-xs uppercase tracking-[0.2em] text-muted">
           {String(index + 1).padStart(2, "0")} — Featured
+          {project.year ? ` · ${project.year}` : ""}
         </span>
         <h3 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
           {project.name}
@@ -61,26 +48,30 @@ function ShowcaseRow({ project, index }: { project: FlagshipProject; index: numb
           {project.description}
         </p>
 
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {project.stack.map((s) => (
-            <li
-              key={s}
-              className="rounded-full border border-border px-3 py-1 text-xs text-muted"
-            >
-              {s}
-            </li>
-          ))}
-        </ul>
+        {project.stack.length > 0 && (
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {project.stack.map((s) => (
+              <li
+                key={s}
+                className="rounded-full border border-border px-3 py-1 text-xs text-muted"
+              >
+                {s}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div className="mt-6 flex gap-5">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-accent"
-          >
-            Code →
-          </a>
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-accent"
+            >
+              Code →
+            </a>
+          )}
           {project.live && (
             <a
               href={project.live}
@@ -98,17 +89,20 @@ function ShowcaseRow({ project, index }: { project: FlagshipProject; index: numb
 }
 
 export default function ProjectShowcase() {
+  const recorded = featuredProjects.filter((p) => p.video).length;
+
   return (
     <section id="work" className="mx-auto max-w-6xl px-6 py-10">
       <Reveal>
         <h2 className="text-sm uppercase tracking-[0.2em] text-muted">Work</h2>
         <p className="mt-3 max-w-xl text-2xl font-medium text-foreground sm:text-3xl">
-          A closer look at three projects behind the reel above.
+          Demo reels that auto-play as you scroll — {recorded} recorded, the
+          rest on the way.
         </p>
       </Reveal>
 
       <div className="divide-y divide-border">
-        {flagshipProjects.map((project, i) => (
+        {featuredProjects.map((project, i) => (
           <ShowcaseRow key={project.slug} project={project} index={i} />
         ))}
       </div>
