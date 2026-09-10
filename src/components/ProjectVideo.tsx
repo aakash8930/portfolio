@@ -64,6 +64,13 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
   const [needsGesture, setNeedsGesture] = useState(false);
   const [visible, setVisible] = useState(true);
 
+  // Direct DOM sync for muted state — some browsers ignore the prop on mount.
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+    }
+  }, []);
+
   // Reset when a different clip is handed to the same mounted element.
   useEffect(() => {
     setFailure(null);
@@ -92,7 +99,11 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
     const el = videoRef.current;
     if (!el || failure || reducedMotion || needsGesture) return;
 
+    // Ensure muted is true before calling play to maximize autoplay success.
+    if (!el.muted) el.muted = true;
+
     const attempt = el.play();
+
     // Older browsers return undefined rather than a promise.
     if (attempt && typeof attempt.catch === "function") {
       attempt.catch((err: DOMException) => {

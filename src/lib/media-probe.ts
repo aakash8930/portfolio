@@ -72,13 +72,21 @@ export async function inspectMedia(url: string): Promise<ProbeResult> {
   try {
     const res = await fetch(url, { headers: { Range: `bytes=0-${PROBE_BYTES - 1}` } });
 
-    // A server that ignores Range answers 200 with the whole body, which is
-    // fine — we only look at the head. Anything else is a real failure.
     if (!res.ok && res.status !== 206) {
       result = { ok: false, reason: `Server responded ${res.status}` };
     } else {
-      const body = new Uint8Array(await res.arrayBuffer());
-      result = classifyBytes(body.subarray(0, PROBE_BYTES));
+      const reader = res.body?.getReader();
+      if (!reader) {
+        result = { ok: false, reason: "Response body unavailable" };
+      } else {
+        const { value } = await reader.read();
+        reader.releaseLock();
+        if (!value) {
+          result = { ok: false, reason: "Empty response" };
+        } else {
+          result = classifyBytes(value.subarray(0, PROBE_BYTES));
+        }
+      }
     }
   } catch {
     result = { ok: true };
