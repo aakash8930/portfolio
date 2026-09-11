@@ -22,9 +22,22 @@ const ALL_PROJECTS = projects;
 
 const Projects = () => {
   const [openId, setOpenId] = useState<string | null>(ALL_PROJECTS[0]?.id ?? null);
+  const [preloadingId, setPreloadingId] = useState<string | null>(null);
 
   return (
     <section id="work" className="relative px-6 py-28 md:py-40" aria-labelledby="work-heading">
+      {/* Preload link to warm up the browser cache on hover */}
+      <AnimatePresence>
+        {preloadingId && (
+          <link
+            rel="preload"
+            as="video"
+            href={`${import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos'}/${
+              ALL_PROJECTS.find((p) => p.id === preloadingId)?.video
+            }`}
+          />
+        )}
+      </AnimatePresence>
       <div className="mx-auto max-w-6xl">
         <div className="hairline flex flex-wrap items-end justify-between gap-4 pt-10">
           <Reveal>
@@ -40,6 +53,7 @@ const Projects = () => {
           </Reveal>
         </div>
 
+
         <div className="mt-16">
           {ALL_PROJECTS.map((project, i) => (
             <ProjectRow
@@ -50,6 +64,7 @@ const Projects = () => {
               onToggle={() =>
                 setOpenId(openId === project.id ? null : project.id)
               }
+              onHover={setPreloadingId}
             />
           ))}
         </div>
@@ -82,11 +97,13 @@ function ProjectRow({
   index,
   open,
   onToggle,
+  onHover,
 }: {
   project: Project;
   index: number;
   open: boolean;
   onToggle: () => void;
+  onHover: (id: string | null) => void;
 }) {
   const caseStudy = [
     { title: "Problem", body: project.problem },
@@ -96,9 +113,14 @@ function ProjectRow({
 
   return (
     <Reveal delay={Math.min(index * 0.05, 0.2)} y={20}>
-      <article className="hairline">
+      <article
+        className="hairline"
+        onMouseEnter={() => onHover(project.id)}
+        onMouseLeave={() => onHover(null)}
+      >
         <button
           type="button"
+
           onClick={onToggle}
           aria-expanded={open}
           className="group grid w-full grid-cols-[auto_1fr_auto] items-baseline gap-4 py-7 text-left md:grid-cols-[3rem_1fr_auto_auto] md:gap-8 md:py-9"

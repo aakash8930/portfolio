@@ -193,10 +193,8 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
-        // A direct `src` (rather than `<source>` children) is deliberate: it
-        // keeps error events on the element React is listening to, and lets a
-        // src change reload the media without a remount.
-        src={src}
+        // Use <source> tags to support multiple formats (WebM for speed, MP4 for compatibility)
+        // and strip extension from src to allow format switching.
         poster={poster}
         muted={muted}
         loop
@@ -216,13 +214,24 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
         onPlaying={() => setNeedsGesture(false)}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        // Keep the custom unmute button in step with the native controls,
-        // which can also toggle mute.
         onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
         onError={() =>
           setFailure("The browser could not play this file (unsupported codec or corrupt media)")
         }
-      />
+      >
+        {(() => {
+          const videoBaseUrl = import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos';
+          const baseUrl = videoBaseUrl.endsWith('/') ? videoBaseUrl : `${videoBaseUrl}/`;
+          const fileName = src.replace(/\.[^/.]+$/, ""); // Strip extension
+
+          return (
+            <>
+              <source src={`${baseUrl}${fileName}.webm`} type="video/webm" />
+              <source src={`${baseUrl}${fileName}.mp4`} type="video/mp4" />
+            </>
+          );
+        })()}
+      </video>
 
       {/* Buffering veil — only until the first frame is decodable. */}
       {!ready && (
