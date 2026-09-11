@@ -63,9 +63,13 @@ function ProjectMedia({ project }: { project: Project }) {
 
   if (!project.video) return cover;
 
+  const videoBaseUrl = import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos';
+  // Ensure there is a trailing slash for consistent joining
+  const baseUrl = videoBaseUrl.endsWith('/') ? videoBaseUrl : `${videoBaseUrl}/`;
+
   return (
     <ProjectVideo
-      src={`/project-videos/${project.video}`}
+      src={`${baseUrl}${project.video}`}
       label={`${project.title} project demo`}
       poster={coverStill(project.cover)?.src}
       fallback={cover}
