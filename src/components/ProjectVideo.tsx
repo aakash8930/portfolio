@@ -193,6 +193,7 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
+        crossOrigin="anonymous"
         // Use <source> tags to support multiple formats (WebM for speed, MP4 for compatibility)
         // and strip extension from src to allow format switching.
         poster={poster}
