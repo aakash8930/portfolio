@@ -223,7 +223,9 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
         {(() => {
           const videoBaseUrl = import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos';
           const baseUrl = videoBaseUrl.endsWith('/') ? videoBaseUrl : `${videoBaseUrl}/`;
-          const fileName = src.replace(/\.[^/.]+$/, ""); // Strip extension
+
+          // Strip any existing extension to avoid .mp4.webm
+          const fileName = src.split('/').pop()?.replace(/\.[^/.]+$/, "") || src;
 
           return (
             <>
