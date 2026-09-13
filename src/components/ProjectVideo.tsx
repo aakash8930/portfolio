@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Loader2, Play, Volume2, VolumeX } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { VIDEO_BASE_URL } from "@/lib/site-config";
 import { inspectMedia } from "@/lib/media-probe";
 
 /**
@@ -221,7 +221,7 @@ export function ProjectVideo({ src, label, poster, fallback, className }: Projec
         }
       >
         {(() => {
-          const videoBaseUrl = import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos';
+          const videoBaseUrl = VIDEO_BASE_URL;
           const baseUrl = videoBaseUrl.endsWith('/') ? videoBaseUrl : `${videoBaseUrl}/`;
 
           // Strip any existing extension to avoid .mp4.webm
