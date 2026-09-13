@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Loader2, Play, Volume2, VolumeX } from "lucide-react";
 import { VIDEO_BASE_URL } from "@/lib/site-config";
+import { cn } from "@/lib/utils";
 import { inspectMedia } from "@/lib/media-probe";
 
 /**
