@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 import { CoverArt } from "./CoverArt";
 import { coverStill } from "@/lib/covers";
 import { ProjectVideo } from "./ProjectVideo";
-import { projects, VIDEO_BASE_URL, type Project } from "@/lib/site-config";
+import { projects, type Project } from "@/lib/site-config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -32,7 +32,7 @@ const Projects = () => {
           <link
             rel="preload"
             as="video"
-            href={`${VIDEO_BASE_URL}/${
+            href={`${import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos'}/${
               ALL_PROJECTS.find((p) => p.id === preloadingId)?.video
             }`}
           />
@@ -78,7 +78,7 @@ function ProjectMedia({ project }: { project: Project }) {
 
   if (!project.video) return cover;
 
-  const videoBaseUrl = VIDEO_BASE_URL;
+  const videoBaseUrl = import.meta.env.VITE_VIDEO_BASE_URL || '/project-videos';
   // Ensure there is a trailing slash for consistent joining
   const baseUrl = videoBaseUrl.endsWith('/') ? videoBaseUrl : `${videoBaseUrl}/`;
 

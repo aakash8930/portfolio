@@ -1,7 +1,5 @@
 // Centralized site content. Edit copy here, not in components.
 
-export const VIDEO_BASE_URL = '/project-videos';
-
 export const siteConfig = {
   name: "Aakash Singh",
   role: "Full Stack Developer",
